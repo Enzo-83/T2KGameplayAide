@@ -40,6 +40,7 @@ export async function createSession(gmName) {
     combatants: [],         // { id, name, type: 'player'|'npc', card, actions: {fast, slow}, visible: true }
     players: [],            // { id, name } — joined players
     combatAwareness: [],    // array of player ids that have Combat Awareness active
+    hiddenInitiative: false, // alternative rule: secret cards, redrawn each round
   })
   return code
 }
@@ -65,11 +66,41 @@ export function subscribeToSession(sessionId, callback) {
   })
 }
 
+// Internal: deal cards to a list of combatants from a fresh deck
+// respects doubleDrawIds (Combat Awareness) and surpriseId
+function dealCards(combatants, doubleDrawIds = new Set(), surpriseId = null) {
+  const deck = buildDeck()
+  function drawOne() { return deck.splice(Math.floor(Math.random() * deck.length), 1)[0] ?? null }
+  function drawKeepHigher() {
+    const a = drawOne(); const b = drawOne()
+    if (a == null) return b; if (b == null) return a
+    return Math.max(a, b)
+  }
+
+  if (surpriseId) {
+    const idx = deck.indexOf(1)
+    if (idx !== -1) deck.splice(idx, 1)
+  }
+
+  const assigned = combatants.map(c => ({
+    ...c,
+    actions: { fast: false, slow: false },
+    card: c.id === surpriseId
+      ? 1
+      : doubleDrawIds.has(c.id)
+        ? drawKeepHigher()
+        : drawOne(),
+  }))
+
+  return assigned.sort((a, b) => (a.card ?? 99) - (b.card ?? 99))
+}
+
 // GM: start combat — auto-deal cards to all joined players + NPC groups
 // npcGroups: combatants added by GM (type: 'npc')
 // surpriseId: optional id of combatant that gets card #1 automatically
+// hiddenInitiative: alternative rule — cards secret, redrawn each round
 // combatAwareness is read directly from Firestore so player toggles are included
-export async function startCombat(sessionId, npcGroups = [], surpriseId = null) {
+export async function startCombat(sessionId, npcGroups = [], surpriseId = null, hiddenInitiative = false) {
   const sessionRef = doc(db, 't2k_sessions', sessionId)
   const snap = await getDoc(sessionRef)
   const data = snap.data()
@@ -77,55 +108,21 @@ export async function startCombat(sessionId, npcGroups = [], surpriseId = null) 
 
   // Build full combatant list: joined players + NPC groups
   const playerCombatants = (data.players ?? []).map(p => ({
-    id: p.id,
-    name: p.name,
-    type: 'player',
-    card: null,
-    actions: { fast: false, slow: false },
-    visible: true,
+    id: p.id, name: p.name, type: 'player', card: null,
+    actions: { fast: false, slow: false }, visible: true,
   }))
-
   const allCombatants = [
     ...playerCombatants,
     ...npcGroups.map(n => ({ ...n, card: null, actions: { fast: false, slow: false } })),
   ]
 
-  // Build a working deck (mutable, cards removed as dealt)
-  const deck = [...data.deck]
-  function drawOne() { return deck.splice(Math.floor(Math.random() * deck.length), 1)[0] ?? null }
-  function drawKeepHigher() {
-    const a = drawOne()
-    const b = drawOne()
-    if (a == null) return b
-    if (b == null) return a
-    return Math.max(a, b)
-  }
-
-  // Assign cards — surprise gets #1, double-draw gets two cards (keep higher), rest get one
-  if (surpriseId) {
-    const idx = deck.indexOf(1)
-    if (idx !== -1) deck.splice(idx, 1)
-    allCombatants.forEach(c => {
-      if (c.id === surpriseId) {
-        c.card = 1
-      } else if (doubleDrawIds.has(c.id)) {
-        c.card = drawKeepHigher()
-      } else {
-        c.card = drawOne()
-      }
-    })
-  } else {
-    allCombatants.forEach(c => {
-      c.card = doubleDrawIds.has(c.id) ? drawKeepHigher() : drawOne()
-    })
-  }
-
-  allCombatants.sort((a, b) => (a.card ?? 99) - (b.card ?? 99))
+  const dealt = dealCards(allCombatants, doubleDrawIds, surpriseId)
 
   await updateDoc(sessionRef, {
-    combatants: allCombatants,
-    currentTurn: allCombatants[0]?.card ?? null,
+    combatants: dealt,
+    currentTurn: dealt[0]?.card ?? null,
     status: 'combat',
+    hiddenInitiative,
     round: 1,
   })
 }
@@ -168,7 +165,7 @@ export async function togglePlayerAction(sessionId, playerId, actionType) {
 }
 
 // GM: advance to next turn
-export async function advanceTurn(sessionId, combatants, currentTurn, round) {
+export async function advanceTurn(sessionId, combatants, currentTurn, round, hiddenInitiative = false) {
   const sorted = [...combatants].sort((a, b) => a.card - b.card)
   const idx = sorted.findIndex(c => c.card === currentTurn)
   const next = sorted[idx + 1]
@@ -176,13 +173,24 @@ export async function advanceTurn(sessionId, combatants, currentTurn, round) {
   if (next) {
     await updateDoc(doc(db, 't2k_sessions', sessionId), { currentTurn: next.card })
   } else {
-    // End of round — reset actions, advance round
-    const reset = combatants.map(c => ({ ...c, actions: { fast: false, slow: false } }))
-    await updateDoc(doc(db, 't2k_sessions', sessionId), {
-      combatants: reset,
-      currentTurn: sorted[0]?.card ?? null,
-      round: round + 1,
-    })
+    // End of round
+    if (hiddenInitiative) {
+      // Hidden initiative: redeal fresh cards to all combatants for the new round
+      const redealt = dealCards(combatants)
+      await updateDoc(doc(db, 't2k_sessions', sessionId), {
+        combatants: redealt,
+        currentTurn: redealt[0]?.card ?? null,
+        round: round + 1,
+      })
+    } else {
+      // Normal initiative: keep same cards, reset actions
+      const reset = combatants.map(c => ({ ...c, actions: { fast: false, slow: false } }))
+      await updateDoc(doc(db, 't2k_sessions', sessionId), {
+        combatants: reset,
+        currentTurn: sorted[0]?.card ?? null,
+        round: round + 1,
+      })
+    }
   }
 }
 
@@ -215,6 +223,7 @@ export async function reopenSession(sessionId) {
     combatants: [],
     currentTurn: null,
     round: 0,
+    hiddenInitiative: false,
   })
 }
 

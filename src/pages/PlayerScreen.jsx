@@ -108,23 +108,32 @@ export default function PlayerScreen() {
             </div>
           </div>
 
-          {actingCombatant && !isMyTurn && (
+          {!session.hiddenInitiative && actingCombatant && !isMyTurn && (
             <p className="acting-now">
               Acting now: <strong>{actingCombatant.name}</strong>
+            </p>
+          )}
+
+          {session.hiddenInitiative && !isMyTurn && (
+            <p className="acting-now">
+              Referee is calling numbers… wait for yours.
             </p>
           )}
         </section>
       )}
 
-      <section className="player-tracker-section">
-        <h2>Turn Order</h2>
-        <TurnTracker
-          combatants={visibleCombatants}
-          currentTurn={session.currentTurn}
-          showNPCs={true}
-          showControls={false}
-        />
-      </section>
+      {/* Turn order — hidden in hidden initiative mode */}
+      {!session.hiddenInitiative && (
+        <section className="player-tracker-section">
+          <h2>Turn Order</h2>
+          <TurnTracker
+            combatants={visibleCombatants}
+            currentTurn={session.currentTurn}
+            showNPCs={true}
+            showControls={false}
+          />
+        </section>
+      )}
     </div>
   )
 }

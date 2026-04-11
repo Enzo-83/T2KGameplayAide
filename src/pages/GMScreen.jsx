@@ -24,6 +24,7 @@ export default function GMScreen() {
   const [npcVisible, setNpcVisible] = useState(true)
   const [npcGroups, setNpcGroups] = useState([])   // local NPC list before combat starts
   const [surpriseId, setSurpriseId] = useState('')
+  const [hiddenInitiative, setHiddenInitiative] = useState(false)
   const [exchangeA, setExchangeA] = useState('')
   const [exchangeB, setExchangeB] = useState('')
 
@@ -61,7 +62,7 @@ export default function GMScreen() {
   }
 
   function handleStartCombat() {
-    startCombat(sessionId, npcGroups, surpriseId || null)
+    startCombat(sessionId, npcGroups, surpriseId || null, hiddenInitiative)
     setSurpriseId('')
   }
 
@@ -81,7 +82,7 @@ export default function GMScreen() {
   }
 
   function handleAdvanceTurn() {
-    advanceTurn(sessionId, combatants, session.currentTurn, session.round)
+    advanceTurn(sessionId, combatants, session.currentTurn, session.round, session.hiddenInitiative)
   }
 
   function handleEndCombat() {
@@ -192,8 +193,28 @@ export default function GMScreen() {
             </section>
           )}
 
+          {/* Hidden Initiative toggle — before combat only */}
+          {!inCombat && (
+            <section className="control-section">
+              <h3>Initiative Mode</h3>
+              <label className="form-row" style={{ cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={hiddenInitiative}
+                  onChange={e => setHiddenInitiative(e.target.checked)}
+                />
+                Hidden Initiative
+              </label>
+              {hiddenInitiative && (
+                <p className="hint">
+                  Cards are kept secret. Players only see their own card. Initiative is redrawn every round.
+                </p>
+              )}
+            </section>
+          )}
+
           {/* Surprise — before combat only */}
-          {!inCombat && (players.length > 0 || npcGroups.length > 0) && (
+          {!inCombat && !hiddenInitiative && (players.length > 0 || npcGroups.length > 0) && (
             <section className="control-section">
               <h3>Surprise</h3>
               <p className="hint">Give a combatant card #1 automatically.</p>
@@ -263,7 +284,12 @@ export default function GMScreen() {
         {/* RIGHT: Turn tracker */}
         <main className="gm-main">
           <div className="gm-turn-header">
-            <h2>{inCombat ? 'Turn Order' : 'Waiting for Combat'}</h2>
+            <div>
+              <h2>{inCombat ? 'Turn Order' : 'Waiting for Combat'}</h2>
+              {inCombat && session.hiddenInitiative && (
+                <span className="hidden-initiative-badge">🌫 Hidden Initiative — redraws each round</span>
+              )}
+            </div>
             {inCombat && (
               <button className="btn btn-primary" onClick={handleAdvanceTurn}>
                 Next Turn →

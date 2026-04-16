@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createSession, joinSession, getSession, reopenSession } from '../firebase/sessionService'
+import { getPlayerId, savePlayerName } from '../hooks/usePlayerIdentity'
 
 export default function Home() {
   const navigate = useNavigate()
   const [playerName, setPlayerName] = useState('')
-  const [joinCode, setJoinCode] = useState('')
-  const [gmName, setGmName] = useState('')
+  const [joinCode,   setJoinCode]   = useState('')
+  const [gmName,     setGmName]     = useState('')
   const [rejoinCode, setRejoinCode] = useState('')
   const [showRejoin, setShowRejoin] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [error,      setError]      = useState('')
+  const [loading,    setLoading]    = useState(false)
 
   async function handleCreateSession() {
     if (!gmName.trim()) return setError('Enter your name to create a session.')
@@ -34,10 +35,7 @@ export default function Home() {
     try {
       const code = rejoinCode.trim().toUpperCase()
       const data = await getSession(code)
-      // If the session was closed, offer to reopen it
-      if (data.status === 'ended') {
-        await reopenSession(code)
-      }
+      if (data.status === 'ended') await reopenSession(code)
       navigate(`/gm/${code}`, { state: { name: data.gmName } })
     } catch (e) {
       setError(e.message || 'Could not find session. Check the code.')
@@ -48,11 +46,13 @@ export default function Home() {
 
   async function handleJoinSession() {
     if (!playerName.trim()) return setError('Enter your name.')
-    if (!joinCode.trim()) return setError('Enter a session code.')
+    if (!joinCode.trim())   return setError('Enter a session code.')
     setLoading(true)
     setError('')
     try {
-      const { code, playerId } = await joinSession(joinCode.trim().toUpperCase(), playerName.trim())
+      const persistentId = getPlayerId()
+      savePlayerName(playerName.trim())
+      const { code, playerId } = await joinSession(joinCode.trim().toUpperCase(), playerName.trim(), persistentId)
       navigate(`/player/${code}`, { state: { name: playerName.trim(), playerId } })
     } catch (e) {
       setError(e.message || 'Could not join session. Check the code and try again.')
@@ -152,6 +152,12 @@ export default function Home() {
           <button className="btn btn-secondary" onClick={handleJoinSession} disabled={loading}>
             {loading ? 'Joining…' : 'Join Session'}
           </button>
+
+          <div className="home-char-link">
+            <button className="btn-text" onClick={() => navigate('/character')}>
+              Edit my character sheet →
+            </button>
+          </div>
         </section>
       </main>
 

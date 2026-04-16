@@ -46,16 +46,27 @@ export async function createSession(gmName) {
 }
 
 // Player joins a session — verifies the code exists, returns { code, playerId }
-export async function joinSession(code, playerName) {
+// persistentId comes from the player's localStorage (usePlayerIdentity) so their
+// character sheet data survives across sessions.
+export async function joinSession(code, playerName, persistentId) {
   const sessionRef = doc(db, 't2k_sessions', code)
   const snap = await getDoc(sessionRef)
   if (!snap.exists()) throw new Error('Session not found. Check the code.')
 
-  const playerId = `player_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`
-  await updateDoc(sessionRef, {
-    players: arrayUnion({ id: playerId, name: playerName }),
-  })
-  return { code, playerId }
+  const players = snap.data().players ?? []
+  const existing = players.find(p => p.id === persistentId)
+
+  if (!existing) {
+    await updateDoc(sessionRef, {
+      players: arrayUnion({ id: persistentId, name: playerName }),
+    })
+  } else if (existing.name !== playerName) {
+    // Name changed — update in place
+    const updated = players.map(p => p.id === persistentId ? { ...p, name: playerName } : p)
+    await updateDoc(sessionRef, { players: updated })
+  }
+
+  return { code, playerId: persistentId }
 }
 
 // Subscribe to a session document (real-time)

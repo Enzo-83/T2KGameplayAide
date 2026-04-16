@@ -482,3 +482,500 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
 }
 .action-btn--used { background: var(--accent2); border-color: var(--accent2); color: #111; }
 .action-btn:hover { opacity: 0.8; }
+
+/* ── Screen Tabs (shared by GM and Player screens) ──────────── */
+.screen-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+  padding: 0 1rem;
+  flex-shrink: 0;
+}
+.screen-tab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -2px;
+}
+.screen-tab:hover { color: var(--text); }
+.screen-tab--active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Full-width panel used by Fog of War and Roster tabs */
+.gm-fullwidth {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Player screen initiative tab wrapper */
+.player-initiative-tab { padding: 1rem; }
+
+/* ── Home — character sheet link ────────────────────────────── */
+.home-char-link { margin-top: 0.75rem; border-top: 1px solid var(--border); padding-top: 0.75rem; }
+
+/* ── Character Page (standalone /character route) ───────────── */
+.char-page { display: flex; flex-direction: column; height: 100vh; }
+
+.char-page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--surface);
+  border-bottom: 2px solid var(--accent);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.char-page-title { font-size: 1.1rem; color: var(--accent); flex: 1; }
+.char-page-actions { display: flex; align-items: center; gap: 0.75rem; }
+.char-save-btn { width: auto; padding: 0.45rem 1.2rem; }
+.char-saved-msg { font-size: 0.85rem; color: var(--accent2); font-weight: 600; }
+
+.char-page-body { flex: 1; overflow-y: auto; padding: 1rem; }
+
+/* ── Player Sheet Tab ───────────────────────────────────────── */
+.player-sheet-tab { padding: 0.75rem; }
+
+.player-sheet-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.player-sheet-edit-toggle { display: flex; gap: 0.5rem; }
+.player-sheet-mode-btn { width: auto; padding: 0.4rem 1rem; font-size: 0.85rem; }
+
+/* ── Character Sheet ────────────────────────────────────────── */
+.cs-sheet { display: flex; flex-direction: column; gap: 0; }
+
+.cs-section-header {
+  background: var(--surface2);
+  border-left: 3px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-top: 0.75rem;
+}
+
+/* Identity */
+.cs-identity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 0.5rem 0;
+}
+@media (max-width: 480px) { .cs-identity-grid { grid-template-columns: 1fr; } }
+
+/* Attributes */
+.cs-attributes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 0.5rem 0;
+}
+@media (max-width: 480px) { .cs-attributes { grid-template-columns: repeat(2, 1fr); } }
+
+/* Skills */
+.cs-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 8px;
+  padding: 0.5rem 0;
+}
+@media (max-width: 600px) { .cs-skills-grid { grid-template-columns: 1fr; } }
+
+.cs-skills-col { display: flex; flex-direction: column; gap: 2px; }
+
+/* Generic field */
+.cs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 6px;
+  background: var(--surface2);
+  border-radius: 4px;
+}
+.cs-field-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+.cs-val { font-size: 0.9rem; min-height: 1.2em; }
+.cs-val--sm { font-size: 0.82rem; }
+.cs-val--die { color: var(--accent); }
+.cs-val--center { display: block; text-align: center; }
+.cs-empty { color: var(--text-muted); }
+
+/* Rating+Die rows */
+.cs-rating-die {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  background: var(--surface2);
+  border-radius: 4px;
+  min-height: 30px;
+}
+.cs-skill-name { flex: 1; font-size: 0.82rem; }
+.cs-attr-tag { font-size: 0.65rem; color: var(--text-muted); margin-left: 3px; }
+.cs-rd-inputs { display: flex; gap: 4px; }
+
+/* Inputs */
+.cs-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 3px 6px;
+  font-size: 0.85rem;
+  width: 100%;
+}
+.cs-input:focus { outline: 2px solid var(--accent); }
+.cs-input--sm { width: 44px; text-align: center; padding: 2px 4px; }
+.cs-input--gear { width: 100%; }
+.cs-input--weapon { min-width: 100px; }
+.cs-input--weapon-stat { width: 48px; text-align: center; padding: 2px 3px; }
+
+.cs-textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 4px 6px;
+  font-size: 0.85rem;
+  width: 100%;
+  resize: vertical;
+}
+.cs-textarea:focus { outline: 2px solid var(--accent); }
+.cs-textarea--sm { min-height: 60px; }
+
+.cs-text-block { font-size: 0.88rem; padding: 2px 0; white-space: pre-wrap; }
+.cs-talents { padding: 0.4rem 0; }
+
+/* Combat */
+.cs-combat {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0.5rem 0;
+}
+@media (max-width: 520px) { .cs-combat { grid-template-columns: 1fr; } }
+.cs-combat-stats { display: flex; flex-direction: column; gap: 4px; }
+.cs-combat-right { display: flex; flex-direction: column; gap: 4px; }
+
+/* Armor + conditions */
+.cs-armor-cond {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0.5rem 0;
+}
+@media (max-width: 520px) { .cs-armor-cond { grid-template-columns: 1fr; } }
+
+.cs-armor { background: var(--surface2); border-radius: 4px; padding: 6px; }
+.cs-armor-locs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 4px; }
+.cs-armor-loc { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+.cs-loc-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); }
+
+.cs-conditions { background: var(--surface2); border-radius: 4px; padding: 6px; }
+.cs-cond-list { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.cs-condition {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+.cs-condition input { cursor: pointer; }
+.cs-condition--active { color: var(--danger); font-weight: 600; background: rgba(179,64,64,0.12); }
+
+/* Gear */
+.cs-gear {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0.5rem 0;
+}
+@media (max-width: 520px) { .cs-gear { grid-template-columns: 1fr; } }
+.cs-gear-list { background: var(--surface2); border-radius: 4px; padding: 6px; }
+.cs-gear-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 4px; }
+.cs-gear-slot { display: flex; align-items: center; gap: 4px; }
+.cs-slot-num { font-size: 0.65rem; color: var(--text-muted); min-width: 14px; text-align: right; }
+
+.cs-gear-extras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0.4rem 0;
+}
+@media (max-width: 520px) { .cs-gear-extras { grid-template-columns: 1fr; } }
+
+/* Weapons */
+.cs-weapons-wrap { overflow-x: auto; padding: 0.5rem 0; }
+.cs-weapons-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.cs-weapons-table th, .cs-weapons-table td {
+  border: 1px solid var(--border);
+  padding: 3px 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+.cs-weapons-table th { background: var(--surface2); color: var(--text-muted); font-weight: 600; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.cs-wth { min-width: 42px; }
+.cs-wth--name { min-width: 120px; text-align: left; }
+.cs-weapons-table td:first-child { text-align: left; }
+
+/* ── Fog of War Tracker ──────────────────────────────────────── */
+.fow-tracker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  align-items: start;
+}
+@media (max-width: 760px) { .fow-tracker { grid-template-columns: 1fr; } }
+
+.fow-column { display: flex; flex-direction: column; gap: 1rem; }
+
+.fow-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem;
+}
+.fow-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+.fow-section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }
+.fow-hint { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+.fow-empty { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+
+.fow-add-btn { width: auto; padding: 2px 10px; font-size: 0.8rem; }
+
+.fow-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); display: block; margin-bottom: 2px; }
+
+.fow-input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  width: 100%;
+}
+.fow-input:focus { outline: 2px solid var(--accent); }
+.fow-input--name { font-weight: 600; }
+
+.fow-select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 4px 8px;
+  font-size: 0.82rem;
+  width: 100%;
+}
+
+.fow-textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 4px 8px;
+  font-size: 0.82rem;
+  width: 100%;
+  resize: vertical;
+}
+
+/* NPC list */
+.fow-npc-list { display: flex; flex-direction: column; gap: 6px; }
+
+.fow-npc-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.fow-npc-card--suppressed   { border-left: 3px solid #c8a84b; }
+.fow-npc-card--incapacitated{ border-left: 3px solid var(--danger); }
+.fow-npc-card--down         { border-left: 3px solid #6b3030; opacity: 0.7; }
+.fow-npc-card--active       { border-left: 3px solid var(--accent2); }
+
+.fow-npc-header { padding: 0.5rem 0.6rem; }
+.fow-npc-top { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.fow-expand-btn { background: none; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); padding: 1px 6px; cursor: pointer; font-size: 0.75rem; margin-left: auto; }
+.fow-expand-btn:hover { color: var(--text); }
+
+.fow-status-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.fow-status-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.12s, color 0.12s;
+}
+.fow-status-btn--active.fow-status-btn--active     { background: var(--accent2); border-color: var(--accent2); color: #111; }
+.fow-status-btn--suppressed.fow-status-btn--active { background: var(--accent); border-color: var(--accent); color: #111; }
+.fow-status-btn--incapacitated.fow-status-btn--active,
+.fow-status-btn--down.fow-status-btn--active       { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+.fow-status-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.fow-status-badge--active        { background: rgba(122,158,107,0.2); color: var(--accent2); border: 1px solid var(--accent2); }
+.fow-status-badge--suppressed    { background: rgba(200,168,75,0.2);  color: var(--accent);  border: 1px solid var(--accent); }
+.fow-status-badge--incapacitated,
+.fow-status-badge--down          { background: rgba(179,64,64,0.2);   color: var(--danger);  border: 1px solid var(--danger); }
+
+.fow-npc-detail { display: flex; flex-direction: column; gap: 6px; padding: 0 0.6rem 0.6rem; border-top: 1px solid var(--border); padding-top: 0.5rem; }
+.fow-npc-row { display: flex; flex-direction: column; gap: 2px; }
+.fow-npc-row--inline { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex-direction: unset; }
+
+/* Environmental rows */
+.fow-env-row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
+.fow-env-row--trap { border-left: 2px solid var(--danger); padding-left: 6px; }
+
+.fow-loc-states { display: flex; gap: 3px; }
+.fow-loc-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.fow-loc-btn--open.fow-loc-btn--active       { background: var(--accent2); border-color: var(--accent2); color: #111; }
+.fow-loc-btn--blocked.fow-loc-btn--active    { background: var(--accent);  border-color: var(--accent);  color: #111; }
+.fow-loc-btn--breached.fow-loc-btn--active   { background: var(--danger);  border-color: var(--danger);  color: #fff; }
+
+/* CUF Roll Tool */
+.fow-cuf-controls { display: flex; flex-direction: column; gap: 0.5rem; }
+.fow-cuf-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.fow-dice-btn {
+  width: 34px; height: 34px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.fow-dice-btn--active { background: var(--accent); border-color: var(--accent); color: #111; }
+
+.fow-cuf-actions { display: flex; gap: 0.5rem; }
+.fow-btn { width: auto; padding: 0.4rem 1rem; font-size: 0.85rem; }
+.fow-btn--fake { background: var(--surface2); border: 1px dashed var(--text-muted); color: var(--text-muted); }
+.fow-btn--fake:hover { border-color: var(--accent); color: var(--accent); }
+
+.fow-cuf-result {
+  margin-top: 0.6rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.fow-cuf-result--hit   { border-color: var(--danger); }
+.fow-cuf-result--fake  { opacity: 0.65; border-style: dashed; }
+
+.fow-fake-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border: 1px dashed var(--text-muted);
+  border-radius: 3px;
+  padding: 1px 6px;
+  align-self: flex-start;
+}
+
+.fow-dice-results { display: flex; gap: 5px; flex-wrap: wrap; }
+.fow-die {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.fow-die--hit { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+.fow-cuf-summary { font-size: 0.82rem; }
+.fow-no-hit { color: var(--text-muted); }
+
+/* ── GM Roster tab ───────────────────────────────────────────── */
+.roster-layout {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.roster-sidebar {
+  width: 180px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 1rem;
+  overflow-y: auto;
+}
+.roster-sidebar-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+.roster-player-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.roster-player-btn {
+  width: 100%;
+  text-align: left;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.88rem;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.roster-player-btn:hover { border-color: var(--accent); }
+.roster-player-btn--active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+.roster-sheet-area { flex: 1; overflow-y: auto; padding: 1rem; }
+.roster-sheet-header { margin-bottom: 0.75rem; }
+.roster-viewing { font-size: 0.85rem; color: var(--text-muted); }
+.roster-viewing strong { color: var(--text); }

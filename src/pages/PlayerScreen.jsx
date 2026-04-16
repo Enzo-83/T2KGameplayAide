@@ -60,8 +60,9 @@ export default function PlayerScreen() {
       await saveCharacter(playerId, character)
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
-    } catch {
-      setSheetErr('Could not save — check your connection.')
+    } catch (e) {
+      console.error('saveCharacter error:', e)
+      setSheetErr(`Save failed: ${e?.message ?? e}`)
     } finally {
       setSaving(false)
     }

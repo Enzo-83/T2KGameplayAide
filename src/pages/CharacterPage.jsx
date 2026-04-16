@@ -28,7 +28,8 @@ export default function CharacterPage() {
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
     } catch (e) {
-      setError('Could not save — check your connection.')
+      console.error('saveCharacter error:', e)
+      setError(`Save failed: ${e?.message ?? e}`)
     } finally {
       setSaving(false)
     }

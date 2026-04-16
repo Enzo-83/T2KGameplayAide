@@ -34,7 +34,8 @@ export default function GMScreen() {
   const [exchangeB,       setExchangeB]       = useState('')
 
   // Roster: subscribe to each player's character sheet
-  const [rosterSheets, setRosterSheets] = useState({}) // { playerId: character }
+  const [rosterSheets,   setRosterSheets]   = useState({}) // { playerId: character }
+  const [rosterPlayerId, setRosterPlayerId] = useState(null)
 
   useEffect(() => {
     const unsub = subscribeToSession(sessionId, setSession)
@@ -115,7 +116,6 @@ export default function GMScreen() {
   }
 
   // ── Roster view — selected player sheet ──────────────────────────────────
-  const [rosterPlayerId, setRosterPlayerId] = useState(null)
   const rosterPlayer = players.find(p => p.id === rosterPlayerId)
   const rosterSheet  = rosterPlayerId ? (rosterSheets[rosterPlayerId] ?? EMPTY_CHARACTER) : null
 

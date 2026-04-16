@@ -10,6 +10,7 @@ import { loadCharacter, saveCharacter, EMPTY_CHARACTER } from '../firebase/chara
 import TurnTracker from '../components/initiative/TurnTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
+import GearReference from '../components/reference/GearReference'
 
 export default function PlayerScreen() {
   const { sessionId } = useParams()
@@ -35,9 +36,9 @@ export default function PlayerScreen() {
     return unsub
   }, [sessionId])
 
-  // Load character sheet when switching to sheet or weapons tab
+  // Load character sheet when switching to sheet, weapons, or gear tab
   useEffect(() => {
-    if ((activeTab === 'sheet' || activeTab === 'weapons') && !character) {
+    if ((activeTab === 'sheet' || activeTab === 'weapons' || activeTab === 'gear') && !character) {
       loadCharacter(playerId)
         .then(setCharacter)
         .catch(() => setCharacter({ ...EMPTY_CHARACTER }))
@@ -53,6 +54,27 @@ export default function PlayerScreen() {
   }, [myCard]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const [weaponAdded, setWeaponAdded] = useState('')
+
+  async function handleAddGearToSheet(item, listKey) {
+    const char = character ?? { ...EMPTY_CHARACTER }
+    const slots = char[listKey] ?? []
+    const emptyIdx = slots.findIndex(s => !s)
+    if (emptyIdx === -1) {
+      setWeaponAdded(`${listKey === 'combatGear' ? 'Combat Gear' : 'Backpack'} full — clear a slot first.`)
+      setTimeout(() => setWeaponAdded(''), 3000)
+      return
+    }
+    const updated = slots.map((s, i) => i === emptyIdx ? item.name : s)
+    const newChar = { ...char, [listKey]: updated }
+    setCharacter(newChar)
+    try {
+      await saveCharacter(playerId, newChar)
+      setWeaponAdded(`${item.name} added to ${listKey === 'combatGear' ? 'Combat Gear' : 'Backpack'}.`)
+    } catch {
+      setWeaponAdded('Added locally — save failed, check connection.')
+    }
+    setTimeout(() => setWeaponAdded(''), 3000)
+  }
 
   async function handleAddWeaponToSheet(weapon) {
     const char = character ?? { ...EMPTY_CHARACTER }
@@ -156,6 +178,12 @@ export default function PlayerScreen() {
           onClick={() => setActiveTab('weapons')}
         >
           Weapons
+        </button>
+        <button
+          className={`screen-tab ${activeTab === 'gear' ? 'screen-tab--active' : ''}`}
+          onClick={() => setActiveTab('gear')}
+        >
+          Gear
         </button>
       </nav>
 
@@ -265,10 +293,16 @@ export default function PlayerScreen() {
       {/* ── WEAPONS TAB ── */}
       {activeTab === 'weapons' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          {weaponAdded && (
-            <div className="wref-toast">{weaponAdded}</div>
-          )}
+          {weaponAdded && <div className="wref-toast">{weaponAdded}</div>}
           <WeaponsReference onAddToSheet={handleAddWeaponToSheet} />
+        </div>
+      )}
+
+      {/* ── GEAR TAB ── */}
+      {activeTab === 'gear' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          {weaponAdded && <div className="wref-toast">{weaponAdded}</div>}
+          <GearReference onAddToSheet={handleAddGearToSheet} />
         </div>
       )}
     </div>

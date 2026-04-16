@@ -16,6 +16,7 @@ import TurnTracker from '../components/initiative/TurnTracker'
 import FogOfWarTracker from '../components/fogofwar/FogOfWarTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
+import GearReference from '../components/reference/GearReference'
 
 export default function GMScreen() {
   const { sessionId } = useParams()
@@ -149,6 +150,7 @@ export default function GMScreen() {
           { id: 'fogOfWar',   label: 'Fog of War' },
           { id: 'roster',     label: 'Player Roster' },
           { id: 'weapons',    label: 'Weapons' },
+          { id: 'gear',       label: 'Gear'    },
         ].map(tab => (
           <button
             key={tab.id}
@@ -379,6 +381,13 @@ export default function GMScreen() {
       {activeTab === 'weapons' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <WeaponsReference />
+        </div>
+      )}
+
+      {/* ── GEAR TAB ── */}
+      {activeTab === 'gear' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <GearReference />
         </div>
       )}
     </div>

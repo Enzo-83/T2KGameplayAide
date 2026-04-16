@@ -124,9 +124,19 @@ export default function CharacterSheet({ character, editable = false, onChange }
     })
   }
 
+  function removeWeaponRow(index) {
+    if (!onChange) return
+    onChange({ ...character, weapons: character.weapons.filter((_, i) => i !== index) })
+  }
+
   function addGearSlot(listKey) {
     if (!onChange) return
     onChange({ ...character, [listKey]: [...(character[listKey] ?? []), ''] })
+  }
+
+  function removeGearSlot(listKey, index) {
+    if (!onChange) return
+    onChange({ ...character, [listKey]: (character[listKey] ?? []).filter((_, i) => i !== index) })
   }
 
   function toggleCondition(key) {
@@ -269,6 +279,9 @@ export default function CharacterSheet({ character, editable = false, onChange }
                   ? <input className="cs-input cs-input--gear" value={item} onChange={e => setGear('combatGear', i, e.target.value)} />
                   : <span className="cs-val">{item || <span className="cs-empty">—</span>}</span>
                 }
+                {editable && (
+                  <button className="cs-remove-btn" onClick={() => removeGearSlot('combatGear', i)} title="Remove slot">×</button>
+                )}
               </div>
             ))}
           </div>
@@ -287,6 +300,9 @@ export default function CharacterSheet({ character, editable = false, onChange }
                   ? <input className="cs-input cs-input--gear" value={item} onChange={e => setGear('backpack', i, e.target.value)} />
                   : <span className="cs-val">{item || <span className="cs-empty">—</span>}</span>
                 }
+                {editable && (
+                  <button className="cs-remove-btn" onClick={() => removeGearSlot('backpack', i)} title="Remove slot">×</button>
+                )}
               </div>
             ))}
           </div>
@@ -309,6 +325,7 @@ export default function CharacterSheet({ character, editable = false, onChange }
             <tr>
               <th className="cs-wth cs-wth--name">Weapon</th>
               {WEAPON_COLS.map(col => <th key={col} className="cs-wth">{col}</th>)}
+              {editable && <th className="cs-wth cs-wth--del" />}
             </tr>
           </thead>
           <tbody>
@@ -328,6 +345,11 @@ export default function CharacterSheet({ character, editable = false, onChange }
                     }
                   </td>
                 ))}
+                {editable && (
+                  <td className="cs-wt-del-cell">
+                    <button className="cs-remove-btn" onClick={() => removeWeaponRow(i)} title="Remove weapon">×</button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

@@ -1151,3 +1151,18 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
 }
 .cs-add-row-btn:hover { border-color: var(--accent); color: var(--accent); }
 .cs-add-row-btn--weapons { margin-top: 6px; }
+
+.cs-remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.cs-remove-btn:hover { color: var(--danger); }
+.cs-wth--del { width: 24px; }
+.cs-wt-del-cell { text-align: center; }

@@ -1133,3 +1133,21 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
   text-align: center;
   flex-shrink: 0;
 }
+
+/* ── Character sheet — add row buttons ────────────────────── */
+.cs-add-row-btn {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 0.3rem 0.5rem;
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.cs-add-row-btn:hover { border-color: var(--accent); color: var(--accent); }
+.cs-add-row-btn--weapons { margin-top: 6px; }

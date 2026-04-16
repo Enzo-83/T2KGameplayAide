@@ -116,6 +116,19 @@ export default function CharacterSheet({ character, editable = false, onChange }
     onChange({ ...character, weapons: arr })
   }
 
+  function addWeaponRow() {
+    if (!onChange) return
+    onChange({
+      ...character,
+      weapons: [...character.weapons, { name: '', rel: '', rof: '', damage: '', crit: '', blast: '', range: '', mag: '', armor: '', weight: '', spentAmmo: '' }],
+    })
+  }
+
+  function addGearSlot(listKey) {
+    if (!onChange) return
+    onChange({ ...character, [listKey]: [...(character[listKey] ?? []), ''] })
+  }
+
   function toggleCondition(key) {
     if (!onChange) return
     onChange({
@@ -259,6 +272,9 @@ export default function CharacterSheet({ character, editable = false, onChange }
               </div>
             ))}
           </div>
+          {editable && (
+            <button className="cs-add-row-btn" onClick={() => addGearSlot('combatGear')}>+ Add Slot</button>
+          )}
         </div>
 
         <div className="cs-gear-list">
@@ -274,6 +290,9 @@ export default function CharacterSheet({ character, editable = false, onChange }
               </div>
             ))}
           </div>
+          {editable && (
+            <button className="cs-add-row-btn" onClick={() => addGearSlot('backpack')}>+ Add Slot</button>
+          )}
         </div>
       </div>
 
@@ -313,6 +332,9 @@ export default function CharacterSheet({ character, editable = false, onChange }
             ))}
           </tbody>
         </table>
+        {editable && (
+          <button className="cs-add-row-btn cs-add-row-btn--weapons" onClick={addWeaponRow}>+ Add Weapon Row</button>
+        )}
       </div>
 
     </div>

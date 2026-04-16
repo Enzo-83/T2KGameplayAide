@@ -11,6 +11,7 @@ import TurnTracker from '../components/initiative/TurnTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
 import GearReference from '../components/reference/GearReference'
+import VehiclesReference from '../components/reference/VehiclesReference'
 
 export default function PlayerScreen() {
   const { sessionId } = useParams()
@@ -185,6 +186,12 @@ export default function PlayerScreen() {
         >
           Gear
         </button>
+        <button
+          className={`screen-tab ${activeTab === 'vehicles' ? 'screen-tab--active' : ''}`}
+          onClick={() => setActiveTab('vehicles')}
+        >
+          Vehicles
+        </button>
       </nav>
 
       {/* ── INITIATIVE TAB ── */}
@@ -303,6 +310,13 @@ export default function PlayerScreen() {
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {weaponAdded && <div className="wref-toast">{weaponAdded}</div>}
           <GearReference onAddToSheet={handleAddGearToSheet} />
+        </div>
+      )}
+
+      {/* ── VEHICLES TAB ── */}
+      {activeTab === 'vehicles' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <VehiclesReference />
         </div>
       )}
     </div>

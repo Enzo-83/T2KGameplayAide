@@ -1183,3 +1183,41 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
 }
 .gear-add-btns { display: flex; gap: 4px; flex-shrink: 0; }
 .gear-add-btn--bp { background: var(--accent); color: #1a1a00; }
+
+/* ── Vehicle Reference ───────────────────────────────────── */
+.vcl-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+  padding: 0 1rem 1rem;
+  overflow-y: auto;
+}
+.vcl-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.vcl-header { display: flex; flex-direction: column; gap: 4px; }
+.vcl-title-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px; }
+.vcl-name { font-size: 0.98rem; font-weight: 700; color: var(--accent); }
+.vcl-mode { background: var(--card-bg); }
+.vcl-amph-badge {
+  font-size: 0.7rem;
+  color: #7ec8e3;
+  background: rgba(126,200,227,0.12);
+  border: 1px solid rgba(126,200,227,0.3);
+  border-radius: 3px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+.vcl-stat-rows { display: flex; flex-wrap: wrap; gap: 8px; }
+.vcl-stat-group { display: flex; flex-direction: column; gap: 3px; }
+.vcl-stat-title { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.vcl-stat-pair { display: flex; flex-wrap: wrap; gap: 4px; }
+.vcl-weapons { display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--border); padding-top: 0.35rem; }
+.vcl-weapon-line { font-size: 0.78rem; color: var(--text); line-height: 1.4; }
+.vcl-weapon-label { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; }

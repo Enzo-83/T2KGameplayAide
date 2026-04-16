@@ -17,6 +17,7 @@ import FogOfWarTracker from '../components/fogofwar/FogOfWarTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
 import GearReference from '../components/reference/GearReference'
+import VehiclesReference from '../components/reference/VehiclesReference'
 
 export default function GMScreen() {
   const { sessionId } = useParams()
@@ -150,7 +151,8 @@ export default function GMScreen() {
           { id: 'fogOfWar',   label: 'Fog of War' },
           { id: 'roster',     label: 'Player Roster' },
           { id: 'weapons',    label: 'Weapons' },
-          { id: 'gear',       label: 'Gear'    },
+          { id: 'gear',       label: 'Gear'     },
+          { id: 'vehicles',   label: 'Vehicles' },
         ].map(tab => (
           <button
             key={tab.id}
@@ -388,6 +390,13 @@ export default function GMScreen() {
       {activeTab === 'gear' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <GearReference />
+        </div>
+      )}
+
+      {/* ── VEHICLES TAB ── */}
+      {activeTab === 'vehicles' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <VehiclesReference />
         </div>
       )}
     </div>

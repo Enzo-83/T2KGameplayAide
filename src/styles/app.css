@@ -979,3 +979,157 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
 .roster-sheet-header { margin-bottom: 0.75rem; }
 .roster-viewing { font-size: 0.85rem; color: var(--text-muted); }
 .roster-viewing strong { color: var(--text); }
+
+/* ── Weapons Reference ──────────────────────────────────── */
+.wref-root { display: flex; flex-direction: column; height: 100%; }
+
+.wref-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0.75rem 1rem 0;
+  align-items: center;
+}
+.wref-cat-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.wref-cat-btn:hover { border-color: var(--accent); color: var(--text); }
+.wref-cat-btn--active { border-color: var(--accent); color: var(--accent); font-weight: 600; background: var(--card-bg); }
+.wref-cat-placeholder { font-size: 0.75rem; color: var(--text-muted); font-style: italic; padding: 0 0.25rem; }
+
+.wref-search-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.6rem 1rem;
+}
+.wref-search {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.65rem;
+}
+.wref-search:focus { outline: none; border-color: var(--accent); }
+.wref-search-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+}
+.wref-search-clear:hover { color: var(--text); }
+
+.wref-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  padding: 0 1rem 1rem;
+  overflow-y: auto;
+}
+
+.wref-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.wref-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.wref-card-identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.wref-card-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.wref-card-type {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+.wref-card-ammo {
+  font-size: 0.72rem;
+  color: var(--accent2);
+  white-space: nowrap;
+}
+
+.wref-add-btn {
+  flex-shrink: 0;
+  background: var(--accent2);
+  border: none;
+  border-radius: var(--radius);
+  color: #0e1a0e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.wref-add-btn:hover { opacity: 0.85; }
+.wref-add-btn:active { opacity: 0.7; }
+
+.wref-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.wref-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 6px;
+  min-width: 36px;
+}
+.wref-stat-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.wref-stat-value { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+
+.wref-card-notes {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.wref-toast {
+  background: var(--accent2);
+  color: #0e1a0e;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  flex-shrink: 0;
+}

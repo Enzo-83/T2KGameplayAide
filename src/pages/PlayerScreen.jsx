@@ -12,6 +12,7 @@ import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
 import GearReference from '../components/reference/GearReference'
 import VehiclesReference from '../components/reference/VehiclesReference'
+import TravelReference from '../components/reference/TravelReference'
 
 export default function PlayerScreen() {
   const { sessionId } = useParams()
@@ -192,6 +193,12 @@ export default function PlayerScreen() {
         >
           Vehicles
         </button>
+        <button
+          className={`screen-tab ${activeTab === 'travel' ? 'screen-tab--active' : ''}`}
+          onClick={() => setActiveTab('travel')}
+        >
+          Travel
+        </button>
       </nav>
 
       {/* ── INITIATIVE TAB ── */}
@@ -317,6 +324,13 @@ export default function PlayerScreen() {
       {activeTab === 'vehicles' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <VehiclesReference />
+        </div>
+      )}
+
+      {/* ── TRAVEL TAB ── */}
+      {activeTab === 'travel' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <TravelReference />
         </div>
       )}
     </div>

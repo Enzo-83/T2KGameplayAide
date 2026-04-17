@@ -18,6 +18,7 @@ import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
 import GearReference from '../components/reference/GearReference'
 import VehiclesReference from '../components/reference/VehiclesReference'
+import TravelReference from '../components/reference/TravelReference'
 
 export default function GMScreen() {
   const { sessionId } = useParams()
@@ -153,6 +154,7 @@ export default function GMScreen() {
           { id: 'weapons',    label: 'Weapons' },
           { id: 'gear',       label: 'Gear'     },
           { id: 'vehicles',   label: 'Vehicles' },
+          { id: 'travel',     label: 'Travel'   },
         ].map(tab => (
           <button
             key={tab.id}
@@ -397,6 +399,13 @@ export default function GMScreen() {
       {activeTab === 'vehicles' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <VehiclesReference />
+        </div>
+      )}
+
+      {/* ── TRAVEL TAB ── */}
+      {activeTab === 'travel' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <TravelReference />
         </div>
       )}
     </div>

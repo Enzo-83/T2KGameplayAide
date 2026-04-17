@@ -1221,3 +1221,396 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
 .vcl-weapons { display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--border); padding-top: 0.35rem; }
 .vcl-weapon-line { font-size: 0.78rem; color: var(--text); line-height: 1.4; }
 .vcl-weapon-label { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; }
+
+/* ── Travel Reference ────────────────────────────────────────────── */
+.trav-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem 1rem 1.5rem;
+}
+
+.trav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.trav-section-hint { margin-bottom: 0.25rem; }
+
+/* Tables */
+.trav-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.trav-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  min-width: 520px;
+}
+.trav-table--light { min-width: 320px; }
+
+.trav-th {
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.45rem 0.6rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.trav-th--first  { text-align: left; min-width: 90px; }
+.trav-th--enc    { min-width: 90px; }
+.trav-th--roll   { width: 42px; }
+.trav-th--mishap-name { min-width: 130px; text-align: left; }
+.trav-th--season { min-width: 70px; }
+
+.trav-row { border-bottom: 1px solid var(--border); }
+.trav-row:last-child { border-bottom: none; }
+.trav-row:nth-child(even) { background: rgba(255,255,255,0.02); }
+.trav-row--highlight { background: rgba(200,168,75,0.15) !important; }
+.trav-row--city { opacity: 0.85; }
+
+.trav-td {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.83rem;
+  color: var(--text);
+  vertical-align: top;
+}
+.trav-td--first   { font-weight: 600; white-space: nowrap; }
+.trav-td--center  { text-align: center; }
+.trav-td--enc     { font-size: 0.78rem; white-space: nowrap; }
+.trav-td--roll    { font-weight: 700; font-size: 0.9rem; }
+.trav-td--bold    { font-weight: 600; white-space: nowrap; }
+.trav-td--effect  { font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; }
+.trav-td--mishap-name { white-space: nowrap; }
+.trav-td--light   { font-size: 0.8rem; font-weight: 600; }
+
+.trav-mod--pos { color: var(--accent2); }
+.trav-mod--neg { color: var(--danger);  }
+
+.trav-city-badge {
+  margin-left: 5px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  border: 1px solid var(--accent2);
+  border-radius: 3px;
+  padding: 0px 4px;
+  opacity: 0.8;
+}
+
+/* Nordic Light cell colors */
+.trav-light--light { color: var(--accent);     background: rgba(200,168,75,0.1); }
+.trav-light--dusk  { color: #d4914a;           background: rgba(212,145,74,0.1); }
+.trav-light--dark  { color: var(--text-muted); background: rgba(0,0,0,0.15); }
+
+/* Footnotes */
+.trav-footnotes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0.25rem 0.1rem;
+}
+.trav-footnotes li {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Mishap roll controls */
+.trav-mishap-controls  { display: flex; flex-direction: column; gap: 0.5rem; }
+.trav-mishap-roll-row  { display: flex; align-items: center; gap: 0.75rem; }
+.trav-roll-btn         { width: auto; padding: 0.4rem 1rem; font-size: 0.85rem; }
+.trav-roll-result {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 2rem;
+  text-align: center;
+}
+
+/* Fuel Calculator */
+.trav-calc { max-width: 480px; }
+
+.trav-calc-modes {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+.trav-mode-btn {
+  flex: 1;
+  padding: 0.45rem 0.75rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.trav-mode-btn:hover { border-color: var(--accent); color: var(--text); }
+.trav-mode-btn--active { border-color: var(--accent); color: var(--accent); background: var(--card-bg); }
+
+.trav-calc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.trav-calc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.trav-calc-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.trav-calc-input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  width: 100%;
+}
+.trav-calc-input:focus { outline: 2px solid var(--accent); }
+
+.trav-calc-vehicle-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0.4rem 0;
+}
+
+.trav-calc-alcohol {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.trav-calc-result {
+  background: var(--card-bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.trav-calc-result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.trav-calc-result-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.trav-calc-result-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.trav-calc-range    { font-size: 0.82rem; color: var(--text-muted); }
+.trav-calc-formula  { margin-top: 0.1rem; }
+
+/* Sub-titles within travel sections */
+.trav-sub-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+/* Terrain intro text */
+.trav-terrain-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+.trav-terrain-intro strong { color: var(--text); }
+
+/* Tasks */
+.trav-shifts-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+.trav-shift-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.trav-shift-badge {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+}
+
+.trav-task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.trav-task-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.trav-task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+.trav-task-name  { font-size: 0.88rem; font-weight: 700; color: var(--accent); }
+.trav-task-desc  { font-size: 0.8rem; color: var(--text); line-height: 1.4; }
+.trav-task-note  { font-size: 0.75rem; color: var(--text-muted); font-style: italic; }
+.trav-task-badges { display: flex; gap: 4px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+.trav-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+.trav-badge--foot { background: rgba(122,158,107,0.15); color: var(--accent2); border: 1px solid var(--accent2); }
+.trav-badge--solo { background: rgba(200,168,75,0.12);  color: var(--accent);  border: 1px solid var(--accent); }
+
+/* Weather tracker */
+.trav-weather-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+.trav-weather-btn {
+  padding: 0.4rem 0.85rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.trav-weather-btn:hover { border-color: var(--accent); color: var(--text); }
+.trav-weather-btn--active { border-color: var(--accent); color: var(--accent); background: var(--card-bg); }
+
+.trav-weather-effects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.5rem;
+}
+.trav-weather-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.trav-weather-val { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+
+.trav-weather-outcome {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-left: 0.25rem;
+}
+
+/* City Travel cards */
+.trav-city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+.trav-city-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.trav-city-card-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+.trav-city-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0;
+}
+.trav-city-list li {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  padding-left: 0.75rem;
+  position: relative;
+}
+.trav-city-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent2);
+}
+
+/* Scrap table */
+.trav-table--scrap { min-width: 600px; }
+.trav-th--scrap-name  { min-width: 140px; }
+.trav-th--scrap-effect { min-width: 220px; }
+.trav-td--scrap-name  { font-weight: 600; white-space: nowrap; }
+.trav-scrap-search {
+  flex: 1;
+  min-width: 160px;
+  max-width: 280px;
+  padding: 0.35rem 0.6rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.85rem;
+}
+.trav-scrap-search::placeholder { color: var(--text-muted); }

@@ -361,6 +361,24 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
 .acting-now { font-size: 0.9rem; color: var(--text-muted); text-align: center; }
 .acting-now strong { color: var(--text); }
 
+.end-turn-btn {
+  display: block;
+  margin: 0.25rem auto 0.85rem;
+  min-width: 180px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.action-hint {
+  max-width: 320px;
+  margin: 0.6rem auto 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  text-align: center;
+}
+.action-hint strong { color: var(--accent2); }
+
 .lobby-msg { text-align: center; color: var(--text-muted); padding: 2rem; }
 
 .session-ended {

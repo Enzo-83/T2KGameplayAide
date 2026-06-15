@@ -4,6 +4,7 @@ import {
   subscribeToSession,
   togglePlayerAction,
   toggleCombatAwareness,
+  advanceTurn,
 } from '../firebase/sessionService'
 import { getPlayerId, getPlayerName } from '../hooks/usePlayerIdentity'
 import { loadCharacter, saveCharacter, EMPTY_CHARACTER } from '../firebase/characterService'
@@ -131,6 +132,20 @@ export default function PlayerScreen() {
     }
   }
 
+  // Player ends their own turn — advances initiative to the next card,
+  // exactly like the Referee's "Next Turn" (shared control). Only offered
+  // on the player's turn and outside Hidden Initiative (Referee calls those).
+  function handleEndTurn() {
+    if (!session) return
+    advanceTurn(
+      sessionId,
+      session.combatants ?? [],
+      session.currentTurn,
+      session.round,
+      session.hiddenInitiative,
+    )
+  }
+
   if (!session) return <div className="loading">Connecting to session…</div>
 
   if (session.status === 'ended') {
@@ -253,11 +268,24 @@ export default function PlayerScreen() {
                 </div>
               </div>
 
+              {isMyTurn && !session.hiddenInitiative && (
+                <button className="btn btn-primary end-turn-btn" onClick={handleEndTurn}>
+                  End My Turn →
+                </button>
+              )}
+
               {!session.hiddenInitiative && actingCombatant && !isMyTurn && (
                 <p className="acting-now">Acting now: <strong>{actingCombatant.name}</strong></p>
               )}
               {session.hiddenInitiative && !isMyTurn && (
                 <p className="acting-now">Referee is calling numbers… wait for yours.</p>
+              )}
+
+              {myCombatant && !isMyTurn && (
+                <p className="action-hint">
+                  Not your turn? You can still tap <strong>Fast</strong> or <strong>Slow</strong> on
+                  your card to spend a held or reactive action (overwatch, dodge, block).
+                </p>
               )}
             </section>
           )}

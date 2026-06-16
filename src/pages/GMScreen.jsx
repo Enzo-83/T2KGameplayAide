@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
   subscribeToSession,
   startCombat,
@@ -22,9 +22,7 @@ import TravelReference from '../components/reference/TravelReference'
 
 export default function GMScreen() {
   const { sessionId } = useParams()
-  const { state }     = useLocation()
   const navigate      = useNavigate()
-  const gmName        = state?.name ?? 'Referee'
 
   const [session,         setSession]         = useState(null)
   const [activeTab,       setActiveTab]       = useState('initiative')
@@ -64,11 +62,6 @@ export default function GMScreen() {
   const players    = session.players    ?? []
   const inCombat   = session.status === 'combat'
   const fow        = session.fogOfWar   ?? EMPTY_FOW
-
-  const allForExchange = inCombat ? combatants : [
-    ...players.map(p => ({ id: p.id, name: p.name })),
-    ...npcGroups,
-  ]
 
   function handleAddNpc() {
     if (!npcName.trim()) return

@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 
 export default function InitiativeCard({ combatant, isCurrentTurn, showControls, onActionToggle }) {
-  const { name, card, type, actions, visible } = combatant
+  const { name, card, type, actions } = combatant
   const [flipped, setFlipped] = useState(false)
   const prevCard = useRef(null)
 
   // Trigger flip animation when card is first assigned
   useEffect(() => {
     if (card != null && prevCard.current == null) {
+      // Intentional: snap to the back face, then double-rAF to the front so the
+      // CSS flip animation runs whenever a card is (re)dealt.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFlipped(false)
       requestAnimationFrame(() => {
         requestAnimationFrame(() => setFlipped(true))

@@ -4,7 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "gen:refs": "node scripts/generate-references.mjs",
+    "export:refs": "node scripts/export-references.mjs",
+    "predev": "node scripts/generate-references.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/generate-references.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

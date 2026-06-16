@@ -1,0 +1,21 @@
+﻿dataset,id,label
+weapons,us_military,US Military
+weapons,civilian,Civilian
+weapons,polish,Polish
+weapons,soviet,Soviet
+weapons,swedish,Swedish
+weapons,grenades,Grenades
+weapons,other,Other
+weapons,bows,Bows/Thrown
+weapons,melee,Melee
+gear,weapons_gear,Weapons Gear
+gear,comms,Communications
+gear,observation,Observation
+gear,protective,Protective
+gear,medical,Medical
+gear,tools,Tools & Parts
+gear,fuel,Fuel & Stills
+gear,electricity,Electricity
+gear,explosives,Explosives
+gear,food,Food & Drink
+gear,field,Field Gear

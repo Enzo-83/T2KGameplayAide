@@ -1,0 +1,84 @@
+﻿category,name,type,ammo,rel,rof,damage,crit,blast,range,mag,armor,weight,price,notes
+us_military,M1911A1,Pistol,.45,5,2,2,3,–,2,7,+1,½,100,
+us_military,M9,Pistol,9×19,5,2,1,2,–,2,15,+1,½,100,
+us_military,M16A1,Assault rifle,5.56×45,5,6,2,3,–,5,30,0,1,400,
+us_military,M16A2,Assault rifle,5.56×45,5,3,2,3,–,6,30,0,1,400,
+us_military,M4,Carbine,5.56×45,5,3,2,3,–,4,30,0,1,350,
+us_military,M4A1,Carbine,5.56×45,5,6,2,3,–,4,30,0,1,375,
+us_military,M40A3,Sniper rifle,7.62×51,5,1,3,3,–,12,5,0,2,500,
+us_military,M21,Sniper rifle,7.62×51,5,2,3,3,–,10,20,0,2,450,
+us_military,M82A1,Sniper rifle,.50 M2,5,1,4,3,–,20,10,0,3,1000,
+us_military,M79,GL,40×46,5,1,3,3,D,5,1,0,1,250,
+us_military,M203,GL,40×46,5,1,3,3,D,4,1,0,½,300,
+us_military,Mk 19,AGL,40×53,5,4,3,3,D,20,32,0,6,2500,Needs tripod/vehicle mount. Uses ammo dice.
+us_military,M249,LMG,5.56×45,5,6,2,3,–,6,200,0,2,1000,Ammo belt (1 enc unit).
+us_military,M60,GPMG,7.62×51,4,4,3,4,–,8,100,0,3,1250,Ammo belt (1 enc unit).
+us_military,M240B,GPMG,7.62×51,5,4,3,4,–,8,100,0,3,1500,Ammo belt (1 enc unit).
+us_military,M2HB,HMG,.50 M2,5,4,4,4,–,15,100,0,7,2000,Needs tripod/vehicle mount. Ammo belt (1 enc unit).
+us_military,M72A3 LAW,ATRL,66mm,5,1,6,3,C,3,1,–1,1,100,"Disposable, single shot."
+us_military,M136 AT4,ATRL,84mm,5,1,8,2,C,5,1,–1,2,200,"Disposable, single shot."
+us_military,FGM-148,ATGM,127mm,5,1,10,1,B,40,1,–1,3,7500,
+us_military,M47 Dragon,ATGM,140mm,5,1,11,1,B,25,1,–1,3,5000,
+us_military,BGM-71 TOW,ATGM,152mm,5,1,11,1,B,50,1,–2,15,10000,Needs tripod/vehicle mount.
+civilian,Service revolver,Revolver,.38 SPL,5,2,1,3,–,2,6,+2,½,75,
+civilian,Police pistol,Pistol,9×19,5,2,1,2,–,2,17,+1,½,125,
+civilian,Combat pistol,Pistol,9×19,5,2,1,2,–,2,15,+1,½,100,
+civilian,Bolt-action rifle,Hunting rifle,.30-06,5,1,3,4,–,10,5,0,1,300,
+civilian,Lever-action rifle,Hunting rifle,.30-30,5,1,3,4,–,5,8,0,1,250,
+civilian,Pipe gun rifle,Hunting rifle,Any rifle,3,1,3,4,–,3,1,+1,1,25,Can be jury rigged.
+civilian,Semi-auto shotgun,Shotgun,12 GA,5,2,3,4,–,2,5,+1,1,225,
+civilian,Pump-action,Shotgun,12 GA,5,1,3,4,–,2,5,+1,1,200,
+civilian,Double-barrelled,Shotgun,12 GA,5,2,3,4,–,2,2,+1,1,150,
+civilian,Pipe gun shotgun,Shotgun,12 GA,3,1,3,4,–,1,1,+1,1,25,Can be jury rigged.
+civilian,Zip gun,Pistol,Any pistol,3,1,1,3,–,1,1,+2,½,25,Can be jury rigged.
+polish,P-83,Pistol,9×18,5,2,1,3,–,2,8,+2,½,75,
+polish,AKM,Assault rifle,7.62×39,5,4,2,3,–,5,30,0,1,300,
+polish,PMK-60,Assault rifle,7.62×39,5,4,2,3,–,5,30,0,1,350,
+polish,PM-84,SMG,9×18,5,4,1,3,–,3,25,+2,1,300,
+polish,wz. 1974,GL,40×47,5,1,3,4,D,5,1,0,½,350,
+polish,SWD,Sniper rifle,7.62×54,5,2,3,3,–,10,10,0,2,500,
+polish,RPK,LMG,7.62×39,5,4,2,3,–,6,75,0,2,600,
+polish,PKM,GPMG,7.62×54,5,5,3,4,–,8,100,0,3,1250,Ammo belt (1 enc unit).
+polish,DsKM,HMG,12.7×108,4,4,4,4,–,15,50,0,7,1750,Ammo belt. Needs tripod/vehicle mount.
+polish,NSW,HMG,12.7×108,5,6,4,4,–,15,50,0,6,2000,Ammo belt. Needs tripod/vehicle mount.
+polish,RPG-7V,ATRL,83mm,5,1,7,2,C,6,1,–1,2,750,
+soviet,PM,Pistol,9×18,5,2,1,3,–,2,8,+2,½,75,
+soviet,PSM,Pistol,5.45×18,5,2,1,4,–,2,8,+2,¼,75,
+soviet,AKM,Assault rifle,7.62×39,5,4,2,3,–,5,30,0,1,300,
+soviet,AK-74,Assault rifle,5.45×39,5,5,2,3,–,6,30,0,1,400,
+soviet,PP-19,SMG,9×18,5,5,1,3,–,3,64,+2,1,350,
+soviet,GP-25,GL,40mm,5,1,3,4,D,4,1,0,1,250,
+soviet,AGS-17,AGL,30×29,4,3,4,4,D,15,29,0,5,2000,Auto grenade launcher. Uses ammo dice. Ammo belt. Needs tripod/vehicle mount.
+swedish,Pist 88,Pistol,9×19,5,2,1,2,–,2,17,+1,½,100,
+swedish,Ak 4,Battle rifle,7.62×51,5,4,3,4,–,8,20,0,2,500,
+swedish,Ak 5,Assault rifle,5.56×45,5,5,2,3,–,6,30,0,1,400,
+swedish,Psg 90,Sniper rifle,7.62×51,5,1,3,3,–,12,10,0,2,750,
+swedish,Ag 90,Sniper rifle,.50 M2,5,1,4,3,–,20,10,0,3,1000,
+swedish,Grsp 40,AGL,40×53,5,4,3,3,D,20,32,0,6,2500,Auto grenade launcher. Uses ammo dice. Needs tripod/vehicle mount.
+swedish,Kpist m/45,SMG,9×19,5,4,1,2,–,3,36,+1,1,350,
+grenades,Fragmentation,Grenade,,,,–,–,C,3,,+1,¼,30,
+grenades,Anti Tank,Grenade,,,,6,3,D,3,,–1,¼,50,
+grenades,Smoke,Grenade,,,,–,–,–,3,,–,¼,25,Fills target hex with SMOKE.
+grenades,White Phosphorous,Grenade,,,,–,–,Fire B,3,,–,¼,50,Fire effect in target hex only.
+grenades,Improvised,Grenade,,,,–,–,C,2,,+1,1,25,Jury rigged with improvised explosives + spare part for shrapnel.
+grenades,Molotov Cocktail,Grenade,,,,–,–,Fire C,2,,–,1,15,Jury rigged with one liter of fuel and a bottle.
+other,FN FAL,Battle rifle,7.62×51,5,4,3,4,–,8,20,0,2,500,
+other,FAMAS,Assault rifle,5.56×45,5,6,2,3,–,5,25,0,1,400,
+other,Vz 61,SMG,7.65×17,5,6,1,3,–,2,20,+2,½,200,
+other,Uzi,SMG,9×19,5,4,1,2,–,3,32,+1,1,350,
+other,PSG-1,Sniper rifle,7.62×51,5,1,3,3,–,12,20,0,2,1000,
+other,Armbrust,ATRL,67mm,5,1,6,3,C,4,1,–1,1,100,"Disposable, single shot."
+other,PzF 3,ATRL,110mm,5,1,8,1,C,7,1,–1,1,250,
+bows,Rock,Thrown,,5,,1,3,–,1,,+2,⅓,–,
+bows,Hunting bow,Bow,,5,,1,2,–,4,,+1,1,150,
+bows,Crossbow,Bow,,5,,2,3,–,4,,0,1,200,
+bows,Improvised bow,Bow,,3,,1,3,–,2,,+1,1,10,Can be jury rigged. 2D6 arrows from branches with TECH roll.
+melee,Unarmed,Melee,,5,,1,4,–,,,+3,–,–,
+melee,Rifle butt,Melee,,5,,2,4,–,,,+2,As rifle,–,
+melee,Bottle,Melee,,1,,1,2,–,,,+3,¼,–,
+melee,Knife,Melee,,5,,2,3,–,,,+1,¼,5,
+melee,Club,Melee,,5,,2,4,–,,,+2,1,1,Can be jury rigged.
+melee,Spiked bat,Melee,,5,,2,3,–,,,+2,1,3,Can be jury rigged.
+melee,Bayonet,Melee,,5,,2,3,–,,,+1,¼+rifle,5,
+melee,Machete,Melee,,5,,3,4,–,,,+1,½,20,
+melee,Axe,Melee,,5,,3,3,–,,,+1,1,30,

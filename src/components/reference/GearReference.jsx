@@ -45,7 +45,7 @@ function GearCard({ item, onAddToSheet }) {
 }
 
 export default function GearReference({ onAddToSheet }) {
-  const [activeCat, setActiveCat] = useState('weapons_gear')
+  const [activeCat, setActiveCat] = useState('common')
   const [search,    setSearch]    = useState('')
 
   const items       = GEAR[activeCat] ?? []

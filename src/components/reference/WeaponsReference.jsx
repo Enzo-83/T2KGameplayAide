@@ -40,6 +40,7 @@ function WeaponCard({ weapon, onAddToSheet }) {
         {weapon.mag !== ''   && <Stat label="MAG"    value={weapon.mag}    />}
         <Stat label="ARMOR" value={weapon.armor}   />
         <Stat label="WT"    value={weapon.weight}  />
+        <Stat label="SLOTS" value={weapon.slots}   />
         {weapon.price !== '–' && weapon.price !== '' && <Stat label="₴" value={weapon.price} />}
       </div>
 
@@ -51,7 +52,7 @@ function WeaponCard({ weapon, onAddToSheet }) {
 }
 
 export default function WeaponsReference({ onAddToSheet }) {
-  const [activeCat, setActiveCat] = useState('us_military')
+  const [activeCat, setActiveCat] = useState('pistols')
   const [search,    setSearch]    = useState('')
 
   const weapons      = WEAPONS[activeCat] ?? []

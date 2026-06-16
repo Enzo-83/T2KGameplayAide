@@ -1,84 +1,104 @@
-﻿category,name,type,ammo,rel,rof,damage,crit,blast,range,mag,armor,weight,price,notes
-us_military,M1911A1,Pistol,.45,5,2,2,3,–,2,7,+1,½,100,
-us_military,M9,Pistol,9×19,5,2,1,2,–,2,15,+1,½,100,
-us_military,M16A1,Assault rifle,5.56×45,5,6,2,3,–,5,30,0,1,400,
-us_military,M16A2,Assault rifle,5.56×45,5,3,2,3,–,6,30,0,1,400,
-us_military,M4,Carbine,5.56×45,5,3,2,3,–,4,30,0,1,350,
-us_military,M4A1,Carbine,5.56×45,5,6,2,3,–,4,30,0,1,375,
-us_military,M40A3,Sniper rifle,7.62×51,5,1,3,3,–,12,5,0,2,500,
-us_military,M21,Sniper rifle,7.62×51,5,2,3,3,–,10,20,0,2,450,
-us_military,M82A1,Sniper rifle,.50 M2,5,1,4,3,–,20,10,0,3,1000,
-us_military,M79,GL,40×46,5,1,3,3,D,5,1,0,1,250,
-us_military,M203,GL,40×46,5,1,3,3,D,4,1,0,½,300,
-us_military,Mk 19,AGL,40×53,5,4,3,3,D,20,32,0,6,2500,Needs tripod/vehicle mount. Uses ammo dice.
-us_military,M249,LMG,5.56×45,5,6,2,3,–,6,200,0,2,1000,Ammo belt (1 enc unit).
-us_military,M60,GPMG,7.62×51,4,4,3,4,–,8,100,0,3,1250,Ammo belt (1 enc unit).
-us_military,M240B,GPMG,7.62×51,5,4,3,4,–,8,100,0,3,1500,Ammo belt (1 enc unit).
-us_military,M2HB,HMG,.50 M2,5,4,4,4,–,15,100,0,7,2000,Needs tripod/vehicle mount. Ammo belt (1 enc unit).
-us_military,M72A3 LAW,ATRL,66mm,5,1,6,3,C,3,1,–1,1,100,"Disposable, single shot."
-us_military,M136 AT4,ATRL,84mm,5,1,8,2,C,5,1,–1,2,200,"Disposable, single shot."
-us_military,FGM-148,ATGM,127mm,5,1,10,1,B,40,1,–1,3,7500,
-us_military,M47 Dragon,ATGM,140mm,5,1,11,1,B,25,1,–1,3,5000,
-us_military,BGM-71 TOW,ATGM,152mm,5,1,11,1,B,50,1,–2,15,10000,Needs tripod/vehicle mount.
-civilian,Service revolver,Revolver,.38 SPL,5,2,1,3,–,2,6,+2,½,75,
-civilian,Police pistol,Pistol,9×19,5,2,1,2,–,2,17,+1,½,125,
-civilian,Combat pistol,Pistol,9×19,5,2,1,2,–,2,15,+1,½,100,
-civilian,Bolt-action rifle,Hunting rifle,.30-06,5,1,3,4,–,10,5,0,1,300,
-civilian,Lever-action rifle,Hunting rifle,.30-30,5,1,3,4,–,5,8,0,1,250,
-civilian,Pipe gun rifle,Hunting rifle,Any rifle,3,1,3,4,–,3,1,+1,1,25,Can be jury rigged.
-civilian,Semi-auto shotgun,Shotgun,12 GA,5,2,3,4,–,2,5,+1,1,225,
-civilian,Pump-action,Shotgun,12 GA,5,1,3,4,–,2,5,+1,1,200,
-civilian,Double-barrelled,Shotgun,12 GA,5,2,3,4,–,2,2,+1,1,150,
-civilian,Pipe gun shotgun,Shotgun,12 GA,3,1,3,4,–,1,1,+1,1,25,Can be jury rigged.
-civilian,Zip gun,Pistol,Any pistol,3,1,1,3,–,1,1,+2,½,25,Can be jury rigged.
-polish,P-83,Pistol,9×18,5,2,1,3,–,2,8,+2,½,75,
-polish,AKM,Assault rifle,7.62×39,5,4,2,3,–,5,30,0,1,300,
-polish,PMK-60,Assault rifle,7.62×39,5,4,2,3,–,5,30,0,1,350,
-polish,PM-84,SMG,9×18,5,4,1,3,–,3,25,+2,1,300,
-polish,wz. 1974,GL,40×47,5,1,3,4,D,5,1,0,½,350,
-polish,SWD,Sniper rifle,7.62×54,5,2,3,3,–,10,10,0,2,500,
-polish,RPK,LMG,7.62×39,5,4,2,3,–,6,75,0,2,600,
-polish,PKM,GPMG,7.62×54,5,5,3,4,–,8,100,0,3,1250,Ammo belt (1 enc unit).
-polish,DsKM,HMG,12.7×108,4,4,4,4,–,15,50,0,7,1750,Ammo belt. Needs tripod/vehicle mount.
-polish,NSW,HMG,12.7×108,5,6,4,4,–,15,50,0,6,2000,Ammo belt. Needs tripod/vehicle mount.
-polish,RPG-7V,ATRL,83mm,5,1,7,2,C,6,1,–1,2,750,
-soviet,PM,Pistol,9×18,5,2,1,3,–,2,8,+2,½,75,
-soviet,PSM,Pistol,5.45×18,5,2,1,4,–,2,8,+2,¼,75,
-soviet,AKM,Assault rifle,7.62×39,5,4,2,3,–,5,30,0,1,300,
-soviet,AK-74,Assault rifle,5.45×39,5,5,2,3,–,6,30,0,1,400,
-soviet,PP-19,SMG,9×18,5,5,1,3,–,3,64,+2,1,350,
-soviet,GP-25,GL,40mm,5,1,3,4,D,4,1,0,1,250,
-soviet,AGS-17,AGL,30×29,4,3,4,4,D,15,29,0,5,2000,Auto grenade launcher. Uses ammo dice. Ammo belt. Needs tripod/vehicle mount.
-swedish,Pist 88,Pistol,9×19,5,2,1,2,–,2,17,+1,½,100,
-swedish,Ak 4,Battle rifle,7.62×51,5,4,3,4,–,8,20,0,2,500,
-swedish,Ak 5,Assault rifle,5.56×45,5,5,2,3,–,6,30,0,1,400,
-swedish,Psg 90,Sniper rifle,7.62×51,5,1,3,3,–,12,10,0,2,750,
-swedish,Ag 90,Sniper rifle,.50 M2,5,1,4,3,–,20,10,0,3,1000,
-swedish,Grsp 40,AGL,40×53,5,4,3,3,D,20,32,0,6,2500,Auto grenade launcher. Uses ammo dice. Needs tripod/vehicle mount.
-swedish,Kpist m/45,SMG,9×19,5,4,1,2,–,3,36,+1,1,350,
-grenades,Fragmentation,Grenade,,,,–,–,C,3,,+1,¼,30,
-grenades,Anti Tank,Grenade,,,,6,3,D,3,,–1,¼,50,
-grenades,Smoke,Grenade,,,,–,–,–,3,,–,¼,25,Fills target hex with SMOKE.
-grenades,White Phosphorous,Grenade,,,,–,–,Fire B,3,,–,¼,50,Fire effect in target hex only.
-grenades,Improvised,Grenade,,,,–,–,C,2,,+1,1,25,Jury rigged with improvised explosives + spare part for shrapnel.
-grenades,Molotov Cocktail,Grenade,,,,–,–,Fire C,2,,–,1,15,Jury rigged with one liter of fuel and a bottle.
-other,FN FAL,Battle rifle,7.62×51,5,4,3,4,–,8,20,0,2,500,
-other,FAMAS,Assault rifle,5.56×45,5,6,2,3,–,5,25,0,1,400,
-other,Vz 61,SMG,7.65×17,5,6,1,3,–,2,20,+2,½,200,
-other,Uzi,SMG,9×19,5,4,1,2,–,3,32,+1,1,350,
-other,PSG-1,Sniper rifle,7.62×51,5,1,3,3,–,12,20,0,2,1000,
-other,Armbrust,ATRL,67mm,5,1,6,3,C,4,1,–1,1,100,"Disposable, single shot."
-other,PzF 3,ATRL,110mm,5,1,8,1,C,7,1,–1,1,250,
-bows,Rock,Thrown,,5,,1,3,–,1,,+2,⅓,–,
-bows,Hunting bow,Bow,,5,,1,2,–,4,,+1,1,150,
-bows,Crossbow,Bow,,5,,2,3,–,4,,0,1,200,
-bows,Improvised bow,Bow,,3,,1,3,–,2,,+1,1,10,Can be jury rigged. 2D6 arrows from branches with TECH roll.
-melee,Unarmed,Melee,,5,,1,4,–,,,+3,–,–,
-melee,Rifle butt,Melee,,5,,2,4,–,,,+2,As rifle,–,
-melee,Bottle,Melee,,1,,1,2,–,,,+3,¼,–,
-melee,Knife,Melee,,5,,2,3,–,,,+1,¼,5,
-melee,Club,Melee,,5,,2,4,–,,,+2,1,1,Can be jury rigged.
-melee,Spiked bat,Melee,,5,,2,3,–,,,+2,1,3,Can be jury rigged.
-melee,Bayonet,Melee,,5,,2,3,–,,,+1,¼+rifle,5,
-melee,Machete,Melee,,5,,3,4,–,,,+1,½,20,
-melee,Axe,Melee,,5,,3,3,–,,,+1,1,30,
+category,name,type,ammo,rel,rof,damage,crit,blast,range,mag,armor,weight,price,slots,notes
+pistols,Vulcan Cricket,Pistol,VUL,5,2,1,3,–,2/8,8,+2,½,,1,"Light, Reliable, Range modifiers doubled"
+pistols,Vulcan Pistol,Pistol,VUL,5,2,1,2,–,2/8,17,+1,½,,2,"Reliable, Range modifiers doubled"
+pistols,Vulcan Pistol (Arax Omir),Pistol,VUL,5,2,1,2,–,2/8,15,+1,½,,2,"Reliable, Range modifiers doubled, +1 PERSUASION when threatening"
+pistols,Accelerator Pistol,Pistol,ACC,5,1,2,3,–,3/12,7,0,½,,2,"Armor-piercing, Silent"
+pistols,Thermal Cricket,Pistol,CELL,5,2,1,2,–,2/8,5,0,½,,1,"Cell-powered, Fire 4"
+pistols,Thermal Pistol,Pistol,CELL,5,2,2,3,–,3/12,7,–1,1,,1,"Cell-powered, Fire 4"
+smgs,Vulcan Wasp,SMG,VUL,5,4,1,2,–,3/12,25,+1,1,,1,"Reliable, Range modifiers doubled"
+smgs,Vulcan Scorpion,SMG,VUL,5,4,1,3,–,3/12,34,+2,1,,2,"Reliable, Range modifiers doubled, -1 Ranged Combat using AMMO dice"
+smgs,Vulcan PDW,SMG,VUL,5,5,1,3,–,3/12,64,+1,1,,2,"Reliable, Range modifiers doubled"
+smgs,Accelerator PDW,SMG,ACC,5,6,1,3,–,2/8,20,0,½,,,
+smgs,Accelerator SMG,SMG,ACC,5,4,1,2,–,4/16,32,0,1,,,
+carbines,Vulcan Carbine,Carbine,VUL,5,4,2,3,–,4/16,30,0,1,,1,Reliable
+carbines,Vulcan Carbine v2,Carbine,VUL,5,6,2,3,–,4/16,30,0,1,,2,Reliable
+carbines,Legionnaire carbine Dayal-3,Carbine,VUL,5,6,2,3,–,5/20,45,0,2,,2,"Reliable, Built-in grenade launcher"
+assault_rifles,Vulcan Assault Rifle,Assault rifle,VUL,5,6,2,3,–,5/20,25,0,1,,2,Reliable
+assault_rifles,Accelerator Assault Rifle (Civilian),Assault rifle,ACC,5,2,2,3,–,6/24,20,–1,1,,1,"Armor-piercing, Silent"
+assault_rifles,Accelerator Assault Rifle (Military),Assault rifle,ACC,5,3,2,3,–,6/24,30,–1,1,,2,"Armor-piercing, Silent"
+assault_rifles,Twin Carbine Rifle,Assault rifle,ACC,5,3,3,4,–,6/24,30,–1,1,,2,"Armor-piercing, Silent, Unreliable"
+assault_rifles,Thermal Carbine,Assault rifle,CEL,5,4,3,4,–,8/32,20,–1,3,,1,Requires a backpack to shoot (included in weight)
+grape,Sawed-off Grape Rifle,Shotgun,VUL,5,2,3,4,–,2/8,2,+1,1,,2,"Shotgun, Single-shot (Roll all ammo dice on the roll)"
+grape,Grape Rifle,Shotgun,VUL,5,1,3,4,–,2/8,5,+1,1,,2,Shotgun
+grape,Grape Carbine,Shotgun,VUL,5,2,3,4,–,2/8,5,+1,1,,2,Shotgun
+marksman,Long Rifle,Marksman rifle,PRIM,5,1,3,4,–,10/40,5,0,1,,2,
+marksman,Lever-action Rifle,Marksman rifle,PRIM,5,1,3,4,–,5/20,8,0,1,,2,
+marksman,Accelerator Rifle (civilian),Marksman rifle,ACC,5,1,3,4,–,12/48,20,0,2,,2,
+marksman,Accelerator Rifle (military),Marksman rifle,ACC,5,2,3,3,–,10/40,20,–1,1,,2,"Armor-Piercing, Silent"
+marksman,Accelerator DMR,Marksman rifle,ACC,5,2,3,3,–,12/48,10,–1,2,,2,"Silent, Optical Scope"
+marksman,Accelerator Rifle Nestera Parox,Marksman rifle,ACC,5,1,4,3,–,20/80,10,–1,5,,2,"Armor-piercing, Anti-Vehicle, Bulky, Slow, Silent"
+marksman,Thermal Rifle,Marksman rifle,CELL,5,1,3,3,–,10/40,5,–1,4,,1,"Fire 3, Fusion Battery"
+heavy,Vulcan Machine Gun,Machine gun,VUL,5,6,2,3,–,5/20,200,0,2,,2,
+heavy,Accelerator Machine Gun,Machine gun,ACC,5,4,3,4,–,8/32,100,0,3,,2,
+heavy,Thermal Machine Gun,Machine gun,CELL,5,5,3,3,–,6/24,75,0,5,,2,"Fire 3, Fusion Battery"
+launchers,Undermount Launcher,Grenade launcher,40mm,5,1,3,3,D,4/16,1,0,½,,,Weight added to rifle as one unit
+systems,Missile System,Weapon system,,5,1,,,–,20/80,1,0,2,,,Anti-vehicle
+systems,Missile System Armor-Piercing,Weapon system,ACC,,,8,2,C,,,–1,1,,,Armor-piercing
+systems,Missile System Blast,Weapon system,Gren.,,,Gren.,Gren.,Gren.,,,Gren.,Gren.,,,
+systems,Thermal Projector,Weapon system,CELL,5,,4,1,–,2/8,,0,,,,"Thermal sweep, Fire 5, Bulky"
+systems,Firestorm System,Weapon system,CELL,5,,5,1,–,6/24,,0,,,,"Anti-vehicle, Slow, Fire 6, Blast Power 5"
+melee,Knife,Melee,,5,,2,3,–,,,+1,¼,50,,Light · Tech P
+melee,Sword,Melee,,5,,3,4,–,,,+1,½,200,,Tech P
+melee,Dura Knife,Melee,,5,,2,3,–,,,0,¼,500,,"Light, Cell-powered · Tech O"
+melee,Dura Sword,Melee,,5,,3,4,–,,,0,1,1000,,"Heavy, Cell-powered · Tech O"
+melee,Mercurium Knife,Melee,,5,,2,3,–,,,–1,½,1500,,"Light, Mercurium, Cell-powered · Tech A"
+melee,Mercurium Sword,Melee,,5,,3,4,–,,,–1,1,3000,,"Heavy, Mercurium, Cell-powered · Tech A"
+melee,Axe,Melee,,5,,3,3,–,,,+1,1,150,,Heavy · Tech P
+melee,Dura Axe,Melee,,5,,3,3,–,,,–1,2,2000,,"Heavy, Cell-powered · Tech O"
+melee,Halberd,Melee,,5,,3,3,–,,,0,2,300,,"Heavy, Long · Tech P"
+melee,Dura Halberd,Melee,,5,,3,3,–,,,–1,2,2500,,"Heavy, Long, Cell-powered · Tech O"
+melee,Rifle Butt,Melee,,5,,2,4,–,,,+2,As rifle,,,
+melee,Baton,Melee,,5,,2,4,–,,,+2,1,100,,Tech P
+melee,"Baton, Expandable",Melee,,5,,2,4,–,,,+2,½,200,,Light · Tech P
+melee,Staff,Melee,,5,,2,4,–,,,+2,1,50,,Tech P
+melee,"Staff, Expandable",Melee,,5,,2,4,–,,,+2,½,250,,Tech P
+melee,Mace,Melee,,5,,2,4,–,,,+1,1,100,,Heavy · Tech P
+melee,Power Sledge,Melee,,5,,3,4,–,,,+1,2,1000,,"Heavy, Cell-powered · Tech O"
+melee,Power Glove,Melee,,5,,2,4,–,,,+1,½,1500,,"Light, Cell-powered · Tech O"
+melee,Shock Stick,Melee,,5,,1,Stun,–,,,+1,1,500,,"Stun, Cell-powered · Tech O"
+melee,Shock Whip,Melee,,5,,1,Stun,–,,,+1,½,800,,"Light, Flexible, Stun, Cell-powered · Tech O"
+melee,Energy Staff,Melee,,5,,2,4,–,,,+1,2,1000,,"Stun, Heavy, Cell-powered · Tech A"
+melee,Energy Stick,Melee,,5,,2,4,–,,,+1,1,1200,,"Stun, Cell-powered · Tech A"
+melee,Energy Whip,Melee,,5,,2,4,–,,,+1,½,1800,,"Light, Flexible, Stun, Cell-powered · Tech A"
+melee,Hand Fan,Melee,,5,,2,3,–,,,+1,½,2500,,"Light, Cell-powered · Tech A"
+melee,Unarmed,Melee,,,,1,4,–,,,+3,–,,,Tech P
+melee,Brass Knuckles,Melee,,5,,1,3,–,,,+3,¼,50,,Light · Tech P
+melee,Claws,Melee,,5,,1,2,–,,,+2,–,,,Tech P
+melee,Dura Claws,Melee,,5,,1,2,–,,,+1,–,600,,Light · Tech O
+melee,Spear,Melee,,5,,2,3,–,,,+1,1,200,,Long · Tech P
+melee,Whip,Melee,,5,,1,3,–,,,+1,½,50,,Flexible · Tech P
+grenades,Concussion,Grenade,,,,1,2,C,3/12,,0,¼,,,Light
+grenades,Frag,Grenade,,,,2,3,C,3/12,,+1,¼,,,Light
+grenades,Inferno,Grenade,,,,2,2,B,3/12,,0,¼,,,Light
+grenades,Sensor smoke,Grenade,,,,,,C,3/12,,0,¼,,,"Light, Blocks vision and sensors"
+grenades,Smoke,Grenade,,,,,,C,3/12,,0,¼,,,"Light, Blocks vision"
+grenades,Stun,Grenade,,,,Stun,3,C,3/12,,0,¼,,,"Light, Stun"
+grenades,Thermal,Grenade,,,,1,2,C,3/12,,Neg,¼,,,"Light, Fire B"
+grenades,Thermobaric,Grenade,,,,1,2,B,3/12,,Neg,¼,,,"Light, Fire C"
+grenades,Electroshock,Grenade,,,,Stun,,D,3/12,,0,¼,,,"Stun (-2), affects electronics"
+explosives,Breach Charge Small,Explosive,,,,1,1,C,,,0,1,,,Destroys thin walls or normal vehicles
+explosives,Breach Charge Medium,Explosive,,,,1,1,B,,,0,2,,,Destroys thick walls or heavy vehicles
+explosives,Breach Charge Heavy,Explosive,,,,1,1,A,,,0,10,,,Destroys entire house/small building or bridges
+explosives,Breach Charge Massive,Explosive,,,,1,1,AA,,,0,50,,,Destroys roads or entire blocks
+explosives,M40 HEDP Grenade,Explosive,,,,Blast B,1,–,Weapon,,0,,,,Med range when used as hand grenade
+explosives,Starshell Flares,Explosive,,,,2,2,–,Weapon,,0,,,,
+explosives,Baton Rounds,Explosive,,,,3,2,–,Weapon,,0,,,,
+explosives,M108 Buckshot Canisters,Explosive,,,,3,1,–,Weapon,,0,,,,
+explosives,U4 QTC Firebomb Ammunition,Explosive,,,,Fire A,2,–,Weapon,,0,,,,
+explosives,M20 Claymore Mine,Explosive,,,,Blast B,1,–,Short,,0,,,,Triggered at SHORT range. OBSERVATION to spot.
+explosives,M111 Anti-Vehicle Mine,Explosive,,,,Blast A,1,–,Close,,0,,,,Triggered at CLOSE range. Initial target damage +2 and AP
+other,Harpoon Grappling Gun,Other,SPEC.,5,,1,3,–,2/8,1,+2,1,,,"Armor doubles, Single Shot"
+other,Starshell Flare Pistol,Other,SPEC.,5,,1,3,–,3/12,1,N/A,½,,,"Light, Illuminates one zone, Single Shot"
+other,EVA Mining Laser,Other,CELL,5,1,3,1,–,1/4,20,0,2,,,"Armor piercing, Heavy, Cell-powered"
+other,Heavy Incinerator,Other,SPEC.,5,2,Fire C,2,–,1/4,50,0,2,,,"Heavy, Uses 3 ammo per roll and per ammo die, requires a special reload (1 weight)"
+other,Rock,Other,,5,,1,3,–,1/4,,+2,½,,,Light
+other,Blowpipe,Other,,5,,1,4,–,1/4,,+2,½,,,"Light, Single-shot"
+other,Throwing Knife,Other,,5,,1,2,–,1/4,,+1,¼,,,Light
+other,Throwing Spear,Other,,5,,2,3,–,2/8,,+1,1,,,
+other,Throwing Axe,Other,,5,,2,3,–,1/4,,+1,1,,,
+other,Spear-thrower,Other,,5,,2,3,–,2/8,,+1,1,,,Single-shot
+other,Harpoon,Other,,5,,2,3,–,2/8,,+1,1,,,"Heavy, Single-shot"
+other,Improvised Bow,Other,,3,,1,3,–,2/8,,+1,1,,,Single-shot
+other,Hunting bow,Other,,5,,1,2,–,4/16,,+1,1,,,Single-shot
+other,Crossbow,Other,,5,,2,3,–,4/16,,0,1,,,Single-shot
+other,Combat Bow,Other,,5,,2/Gren.,3/Gren.,–,4/16,,0,1,,,Single-shot

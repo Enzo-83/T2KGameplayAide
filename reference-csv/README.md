@@ -28,7 +28,7 @@ To re-derive the CSVs from the current `.js` (e.g. a one-time baseline), run
   `dataset` is `weapons` or `gear`. Add a category here before using its `id` in
   the row CSVs.
 - **`weapons.csv`** — `category, name, type, ammo, rel, rof, damage, crit, blast,
-  range, mag, armor, weight, price, notes`.
+  range, mag, armor, weight, price, slots, notes`.
 - **`gear.csv`** — `category, name, sub, weight, price, rel, range, effect, notes`.
 
 `category` must match an `id` from `categories.csv`. Leave a cell blank for
@@ -43,6 +43,8 @@ To re-derive the CSVs from the current `.js` (e.g. a one-time baseline), run
 - **blast** — `–` none, or `D`/`C`/`B`/`A` radius class (`Fire B` etc. allowed).
 - **armor** — `+1`/`+2` (easier to hit), `0` none, `–1`/`–2` (harder).
 - **mag** — a `*` suffix denotes an ammo belt (one encumbrance unit).
+- **slots** — number of modification/feature slots on the weapon: how many add-on
+  features (scope, suppressor, etc.) can be bought and fitted to it. Blank = none.
 - **category mapping (inventory picker colors/buckets):** a gear `category` id
   that the inventory builder doesn't recognize falls back to the generic *Tools*
   color, and a weapon `type` it doesn't recognize is treated as a *Firearm*. If

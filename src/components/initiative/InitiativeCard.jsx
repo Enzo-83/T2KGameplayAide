@@ -1,23 +1,38 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+
+// Card face that flips from back ("?") to front (the dealt number). It mounts on
+// the back face, then flips to the front on the next frame so the CSS transition
+// runs. Remounting it (via a changing `key`) replays the flip from scratch —
+// that's how a freshly dealt card animates, without an imperative state reset
+// inside an effect.
+function FlipCard({ card, rotationClass }) {
+  const [flipped, setFlipped] = useState(false)
+
+  useEffect(() => {
+    let inner
+    const outer = requestAnimationFrame(() => {
+      inner = requestAnimationFrame(() => setFlipped(true))
+    })
+    return () => {
+      cancelAnimationFrame(outer)
+      if (inner) cancelAnimationFrame(inner)
+    }
+  }, [])
+
+  return (
+    <div className={`card-flip-inner ${flipped ? 'card-flip-inner--flipped' : ''}`}>
+      <div className="card-face card-face--back">
+        <span className="card-face-symbol">?</span>
+      </div>
+      <div className={`card-face card-face--front ${rotationClass}`}>
+        <span className="card-number">{card ?? '?'}</span>
+      </div>
+    </div>
+  )
+}
 
 export default function InitiativeCard({ combatant, isCurrentTurn, showControls, onActionToggle }) {
   const { name, card, type, actions } = combatant
-  const [flipped, setFlipped] = useState(false)
-  const prevCard = useRef(null)
-
-  // Trigger flip animation when card is first assigned
-  useEffect(() => {
-    if (card != null && prevCard.current == null) {
-      // Intentional: snap to the back face, then double-rAF to the front so the
-      // CSS flip animation runs whenever a card is (re)dealt.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFlipped(false)
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => setFlipped(true))
-      })
-    }
-    prevCard.current = card
-  }, [card])
 
   function getRotationClass() {
     if (actions.fast && actions.slow) return 'rotate-done'
@@ -33,16 +48,11 @@ export default function InitiativeCard({ combatant, isCurrentTurn, showControls,
       isCurrentTurn ? 'initiative-card--active' : '',
     ].join(' ')}>
 
-      {/* Card number with flip animation */}
+      {/* Card number with flip animation. Keyed on whether a card is dealt, so a
+          freshly dealt card replays the flip, while value changes (initiative
+          exchange, hidden-initiative redeals) update in place without re-flipping. */}
       <div className="card-flip-wrapper">
-        <div className={`card-flip-inner ${flipped ? 'card-flip-inner--flipped' : ''}`}>
-          <div className="card-face card-face--back">
-            <span className="card-face-symbol">?</span>
-          </div>
-          <div className={`card-face card-face--front ${getRotationClass()}`}>
-            <span className="card-number">{card ?? '?'}</span>
-          </div>
-        </div>
+        <FlipCard key={card != null ? 'dealt' : 'empty'} card={card} rotationClass={getRotationClass()} />
       </div>
 
       <div className="card-info">

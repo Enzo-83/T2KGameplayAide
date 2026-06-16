@@ -110,6 +110,31 @@ function gearItem(r) {
   return entries
 }
 
+// ── ARMOR ─────────────────────────────────────────────────────────────────────
+// rating/cost may be numeric ('0','1',300) or carry a marker ('–', '10%'); slots
+// is a count. Empty cells stay '' so the reference card hides that pill.
+function armorItem(r) {
+  return [
+    ['name',     r.name],
+    ['rating',   numOrStr(r.rating)],
+    ['slots',    numOrStr(r.slots)],
+    ['weight',   r.weight],
+    ['tech',     r.tech],
+    ['cost',     numOrStr(r.cost)],
+    ['features', r.features],
+  ]
+}
+
+// ── TALENTS ───────────────────────────────────────────────────────────────────
+function talentItem(r) {
+  return [
+    ['name',   r.name],
+    ['type',   r.type],
+    ['source', r.source],
+    ['effect', r.effect],
+  ]
+}
+
 // ── emit a data module ────────────────────────────────────────────────────────
 const HEADER =
   '// ⚠ GENERATED FILE — DO NOT EDIT BY HAND.\n' +
@@ -131,8 +156,12 @@ function emitModule({ catConst, dataConst, cats, grouped, itemFn }) {
 // ── run ───────────────────────────────────────────────────────────────────────
 const weaponCats = categoriesFor('weapons')
 const gearCats   = categoriesFor('gear')
+const armorCats  = categoriesFor('armor')
+const talentCats = categoriesFor('talents')
 const weaponRows = readRows('weapons.csv')
 const gearRows   = readRows('gear.csv')
+const armorRows  = readRows('armor.csv')
+const talentRows = readRows('talents.csv')
 
 const weaponsOut = emitModule({
   catConst: 'WEAPON_CATEGORIES', dataConst: 'WEAPONS', cats: weaponCats,
@@ -142,9 +171,21 @@ const gearOut = emitModule({
   catConst: 'GEAR_CATEGORIES', dataConst: 'GEAR', cats: gearCats,
   grouped: groupByCategory(gearRows, gearCats, 'gear'), itemFn: gearItem,
 })
+const armorOut = emitModule({
+  catConst: 'ARMOR_CATEGORIES', dataConst: 'ARMOR', cats: armorCats,
+  grouped: groupByCategory(armorRows, armorCats, 'armor'), itemFn: armorItem,
+})
+const talentsOut = emitModule({
+  catConst: 'TALENT_CATEGORIES', dataConst: 'TALENTS', cats: talentCats,
+  grouped: groupByCategory(talentRows, talentCats, 'talents'), itemFn: talentItem,
+})
 
 writeFileSync(join(DATA_DIR, 'weapons.js'), weaponsOut)
 writeFileSync(join(DATA_DIR, 'gear.js'),    gearOut)
+writeFileSync(join(DATA_DIR, 'armor.js'),   armorOut)
+writeFileSync(join(DATA_DIR, 'talents.js'), talentsOut)
 
 console.log(`weapons.js  ${weaponRows.length} items / ${weaponCats.length} categories`)
 console.log(`gear.js     ${gearRows.length} items / ${gearCats.length} categories`)
+console.log(`armor.js    ${armorRows.length} items / ${armorCats.length} categories`)
+console.log(`talents.js  ${talentRows.length} items / ${talentCats.length} categories`)

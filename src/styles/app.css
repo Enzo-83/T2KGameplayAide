@@ -1202,6 +1202,16 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
 .gear-add-btns { display: flex; gap: 4px; flex-shrink: 0; }
 .gear-add-btn--bp { background: var(--accent); color: #1a1a00; }
 
+/* ── Talents Reference ──────────────────────────────────────── */
+/* effect is the card's main content; pre-wrap keeps the source line breaks
+   (e.g. the crowd-size table in "Agitator") */
+.talent-effect {
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
 /* ── Vehicle Reference ───────────────────────────────────── */
 .vcl-list {
   display: grid;

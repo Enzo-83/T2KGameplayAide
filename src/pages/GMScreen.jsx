@@ -17,6 +17,8 @@ import FogOfWarTracker from '../components/fogofwar/FogOfWarTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
 import GearReference from '../components/reference/GearReference'
+import ArmorReference from '../components/reference/ArmorReference'
+import TalentsReference from '../components/reference/TalentsReference'
 import VehiclesReference from '../components/reference/VehiclesReference'
 import TravelReference from '../components/reference/TravelReference'
 
@@ -146,6 +148,8 @@ export default function GMScreen() {
           { id: 'roster',     label: 'Player Roster' },
           { id: 'weapons',    label: 'Weapons' },
           { id: 'gear',       label: 'Gear'     },
+          { id: 'armor',      label: 'Armor'    },
+          { id: 'talents',    label: 'Talents'  },
           { id: 'vehicles',   label: 'Vehicles' },
           { id: 'travel',     label: 'Travel'   },
         ].map(tab => (
@@ -385,6 +389,20 @@ export default function GMScreen() {
       {activeTab === 'gear' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <GearReference />
+        </div>
+      )}
+
+      {/* ── ARMOR TAB ── */}
+      {activeTab === 'armor' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <ArmorReference />
+        </div>
+      )}
+
+      {/* ── TALENTS TAB ── */}
+      {activeTab === 'talents' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <TalentsReference />
         </div>
       )}
 

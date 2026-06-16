@@ -12,6 +12,8 @@ import TurnTracker from '../components/initiative/TurnTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
 import GearReference from '../components/reference/GearReference'
+import ArmorReference from '../components/reference/ArmorReference'
+import TalentsReference from '../components/reference/TalentsReference'
 import VehiclesReference from '../components/reference/VehiclesReference'
 import TravelReference from '../components/reference/TravelReference'
 
@@ -203,6 +205,18 @@ export default function PlayerScreen() {
           Gear
         </button>
         <button
+          className={`screen-tab ${activeTab === 'armor' ? 'screen-tab--active' : ''}`}
+          onClick={() => setActiveTab('armor')}
+        >
+          Armor
+        </button>
+        <button
+          className={`screen-tab ${activeTab === 'talents' ? 'screen-tab--active' : ''}`}
+          onClick={() => setActiveTab('talents')}
+        >
+          Talents
+        </button>
+        <button
           className={`screen-tab ${activeTab === 'vehicles' ? 'screen-tab--active' : ''}`}
           onClick={() => setActiveTab('vehicles')}
         >
@@ -345,6 +359,20 @@ export default function PlayerScreen() {
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {weaponAdded && <div className="wref-toast">{weaponAdded}</div>}
           <GearReference onAddToSheet={handleAddGearToSheet} />
+        </div>
+      )}
+
+      {/* ── ARMOR TAB ── */}
+      {activeTab === 'armor' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <ArmorReference />
+        </div>
+      )}
+
+      {/* ── TALENTS TAB ── */}
+      {activeTab === 'talents' && (
+        <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <TalentsReference />
         </div>
       )}
 

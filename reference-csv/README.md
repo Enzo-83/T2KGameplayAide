@@ -1,8 +1,8 @@
-# Weapons & Gear reference data (source of truth)
+# Reference data (source of truth)
 
-These CSVs are the **canonical** weapons/gear reference data. The app's
-`src/data/weapons.js` and `src/data/gear.js` are **generated** from them — do not
-edit those `.js` files by hand (they carry a "GENERATED" header and get
+These CSVs are the **canonical** reference data (weapons, gear, armor, talents).
+The app's `src/data/{weapons,gear,armor,talents}.js` are **generated** from them —
+do not edit those `.js` files by hand (they carry a "GENERATED" header and get
 overwritten).
 
 ## Editing workflow
@@ -30,6 +30,15 @@ To re-derive the CSVs from the current `.js` (e.g. a one-time baseline), run
 - **`weapons.csv`** — `category, name, type, ammo, rel, rof, damage, crit, blast,
   range, mag, armor, weight, price, slots, notes`.
 - **`gear.csv`** — `category, name, sub, weight, price, rel, range, effect, notes`.
+- **`armor.csv`** — `category, name, rating, slots, weight, tech, cost, features`.
+  `rating` is the Armor Rating (`–` = no rating, e.g. a helmet); `slots` is the
+  number of Modifications it can take; `cost` is ₴ for items and a **percentage**
+  surcharge for `mods` rows. The `mods` category comes from the Referee's separate
+  "Armor Features" sheet and lists add-ons (its `weight` is a delta, e.g. `-½`).
+- **`talents.csv`** — `category, name, type, source, effect`. `category` is the
+  talent's section (General, the five profession groups, Icon, Cyberware & Bioware,
+  Mystic Powers); `source` is the rulebook it comes from; `type` is only surfaced
+  in the app for Cyberware & Bioware (Body vs Accessory).
 
 `category` must match an `id` from `categories.csv`. Leave a cell blank for
 "none"; commas/quotes in a cell are fine (standard CSV quoting).

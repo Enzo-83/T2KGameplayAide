@@ -1,0 +1,31 @@
+category,name,rating,slots,weight,tech,cost,features
+body,Light Primitive armor,1,,2,Primitive,300,"Bulky, protects torso, arms and legs"
+body,Heavy Primitive armor,2,,4,Primitive,600,"Bulky, protects torso, arms and legs"
+body,Flightsuit,–,1,½,Ordinary,500,"Vacuum suit. Light, unarmored suit worn by pilots and ship crew. Protects torso only if choosing armor as a feature."
+body,Protective Clothing,–,1,½,Ordinary,1200,"Standard clothing that protects from the elements and can be modified. Armored feature is not detectable without close inspection (see ‘Built-in weapon’). Protects torso, arms and legs  if adding armor as a feature."
+body,Armored Vest,1,,1,Ordinary,400,"Padded, flexible vest designed for additional protection. Commonly found throughout space as a cheap option for protection. Noticeable when worn. Protects torso only,"
+body,Light Armor,1,2,2,Ordinary,5000,"Protects torso and arms with ballistic armor, Includes standard helmet, built-in personal comms. Adding additional armor as feature can either add armor to legs and upgrades helmet to ballistic OR improve torso and arms armor by 1."
+body,Heavy Armor,1,3,3,Ordinary,10000,"Full body ballistic armor, Includes ballistic helmet, built-in short range comms, vital readouts (+1 MEDICURGY to treat)."
+body,Ablative Pads,–,,–,Advanced,2000,Reduces damage of one hit by 1 to the location when taking damage. Can apply one to each hit location.
+helmets,Standard Helmet,–,,½,Ordinary,500,"If you suffer a head critical injury, roll 1d6. 1-2: suffer #1 instead, 3-4: suffer #2 instead, 5-6: original roll. Roll a d6 and subtract damage taken (after armor). If the roll is a 1 or less, helmet is now useless."
+helmets,Ballistic Helmet,1,,1,Ordinary,1000,"If you suffer a head critical injury, roll 1d6. 1-2: suffer #1 instead, 3-6: suffer #2 instead. Roll a d6 and subtract damage taken (after armor). If the roll is a 1 or less, helmet is now useless."
+exos,Exo Shell,0,1,3,Ordinary,3000,"Bulky, Thermostatic suit, Vacuum suit, Oxygen supply"
+exos,Reinforced Exo Shell,0,1,3,Ordinary,8000,"Bulky, Thermostatic suit, Vacuum suit, Oxygen supply, Reinforced exo servos"
+exos,Armored Exo,1,2,4,Advanced,25000,"Bulky, Thermostatic suit, Vacuum suit, Oxygen supply,"
+exos,Battle Exo,2,5,–,Advanced,60000,"Bulky, Thermostatic suit, Vacuum suit, Oxygen supply, Reinforced exo servos  Will now be a vehicle instead"
+shields,Shield,1,,1,Primitive,100,"Protects 2 hit locations from one direction when held. Fast action to change what locations are protected. Can use only a pistol or SMG one handed while held. If firing in that round, arms will always be exposed for attacks."
+shields,Riot Shield,1,,2,Ordinary,500,"Protects 3 hit locations from one directions when held. Fast action to change what locations are protected. Can use only a pistol or SMG one handed while held. If firing in that round, arms will always be exposed for attacks."
+shields,Combat Shield,1,,3,Ordinary,1000,"Provides full body armor from one direction when held. Fast action to change what locations are protected. Can use only a pistol or SMG one handed while held. If firing in that round, arms will always be exposed for attacks."
+mods,Built-in weapon,,,Weapon,,10%,"The armor has a built-in weapon – a pistol, dagger or short sword. The weapon must be purchased separately. Can be accessed via a Fast action. Gives a -1 to Observation to detect the weapon."
+mods,Bulky,,,,,,This is a negative feature applied to extremely bulky armors. Gives the wearer a -1 to all MOBILITY rolls while using this armor.
+mods,Camouflage unit,,,½,,50%,"When activated, the unit creates a camouflage field around the suit that makes it almost invisible and very difficult to detect (-2 to OBSERVATION)."
+mods,High-density armalite,,,½,,50%,Gives a +1 to Armor Rating. Can only be added once to an armor.
+mods,Hydrostatic gel,,,¼,,25%,Gives a +1 to Armor Rating against explosions or falling.
+mods,Oxygen supply,,,½,,25%,"Eight hours’ worth of oxygen, in a closed helmet. Does not protect against vacuum by itself."
+mods,Magnetic boots,,,½,,10%,"The boots of the suit have electromagnets to make them work in zero-G and stick to ship hulls. Gives a +1 to Force rolls for resisting unexpected movement (shoving, explosions, etc)."
+mods,Micro servos,,,¼,,25%,Gives a +1 to MOBILITY for jumping and running.
+mods,Reinforced exo servos,,,½,,25%,Gives a +1 to Force rolls. Throwing weapons have their damage increased by 1. Can only be added to exo suits.
+mods,Streamlined,,,-½,,50%,"Using better quality and lighter materials, removes the “Bulky” feature from an armor if present or reduces weight one increment (1/2 to 1/4, 1 to 1/2, 2 to 1, etc). Two Features can be used to both remove Bulky and reduce the weight."
+mods,Thermostatic suit,,,½,,50%,"A suit that monitors and chemically corrects the wearer’s body temperature. No extra energy source is necessary. Works between +70 degrees Celsius and -80 degrees Celsius. Collects the wearer’s sweat and urine, purifies it, and fills up an internal compartment with clean water. Gives a +1 to Survival rolls related to surviving in extreme conditions and supplies one ration of water per day to the wearer."
+mods,Vacuum suit,,,½,,25%,Protects against vacuum as well as both weak and strong radiation in proximity. Gives a +2 to Stamina for resisting extreme radiation.
+mods,Zero-G jet,,,¼,,10%,Tiny thrusters give increased maneuverability in zero-G (+1 to MOBILITY).

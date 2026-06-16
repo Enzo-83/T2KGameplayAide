@@ -26,6 +26,9 @@ const DL        = join(HOME, 'Downloads')
 const RANGED = process.argv[2] || join(DL, '(NEW-PRINT) Coriolis Ranged and Heavy Weapons-1-Ranged Weapons and Explosives.csv')
 const MELEE  = process.argv[3] || join(DL, '(NEW) Coriolis Melee Weapons-Coriolis Melee.csv')
 const EQUIP  = process.argv[4] || join(DL, '(NEW) Coriolis Equipment-Equipment.csv')
+const ARMOR          = process.argv[5] || join(DL, '(NEW) Coriolis Armor-Armor.csv')
+const ARMOR_FEATURES = process.argv[6] || join(DL, '(NEW) Coriolis Armor-Armor Features.csv')
+const TALENTS        = process.argv[7] || join(DL, '(NEW) Coriolis Talents-New or Updated Talents.csv')
 
 const report = []
 const log = m => report.push(m)
@@ -102,6 +105,8 @@ const FIXES = [
   ['Balistic Cartograph', 'Ballistic Cartograph'],
   ['Singe Shot', 'Single Shot'],
   ['Voile Amplifier', 'Voice Amplifier'],
+  ['Genera;', 'General'],
+  ['Bioware (Accessory))', 'Bioware (Accessory)'],
 ]
 const fix = s => FIXES.reduce((a, [from, to]) => a.split(from).join(to), s ?? '')
 
@@ -133,6 +138,23 @@ const CATS = [
   ['gear', 'survival',      'Survival & Colonization'],
   ['gear', 'exos_vehicles', 'Exos & Vehicles'],
   ['gear', 'recon',         'Recon & Infiltration'],
+  // armor
+  ['armor', 'body',     'Body Armor'],
+  ['armor', 'helmets',  'Helmets'],
+  ['armor', 'exos',     'Exo Suits'],
+  ['armor', 'shields',  'Shields'],
+  ['armor', 'mods',     'Modifications'],
+  // talents ("GROUP TALENTS" is a structural parent — its talents live under the
+  // profession sub-headers Free Traders / Mercenaries / Agents / … below)
+  ['talents', 'general',      'General'],
+  ['talents', 'free_traders', 'Free Traders'],
+  ['talents', 'mercenaries',  'Mercenaries'],
+  ['talents', 'agents',       'Agents'],
+  ['talents', 'explorers',    'Explorers'],
+  ['talents', 'pilgrims',     'Pilgrims'],
+  ['talents', 'icon',         'Icon'],
+  ['talents', 'cyber_bio',    'Cyberware & Bioware'],
+  ['talents', 'mystic',       'Mystic Powers'],
 ]
 
 // map a ranged section-header label -> { id, type }. "HEAVY WEAPONS" appears
@@ -278,6 +300,100 @@ function buildGear() {
   return out
 }
 
+// ── ARMOR + ARMOR FEATURES -> armor ───────────────────────────────────────────
+// The armor sheet has no section-label rows (blocks are only blank-line
+// separated), so the category is derived from the item name. Modifications come
+// from the separate "Armor Features" sheet and land in the `mods` category.
+function armorCat(name) {
+  const n = name.toLowerCase()
+  if (n.includes('helmet')) return 'helmets'
+  if (n.includes('exo'))    return 'exos'
+  if (n.includes('shield')) return 'shields'
+  return 'body'
+}
+// armor rating: dash/blank -> '–' (no rating); literal '0' kept (e.g. Exo Shell)
+function normRating(s) {
+  s = T(s)
+  return (s === '' || s === '-' || s === '–' || s === '—') ? '–' : s
+}
+// mod "Added Weight": keep the sign and any fraction (deltas like "-1/2"), blank a dash
+function modWeight(s) {
+  s = T(s)
+  if (s === '' || s === '-' || s === '–' || s === '—') return ''
+  return s.replace(/\d+\/\d+/g, m => FRAC[m] || m)        // 1/2 -> ½, keeps leading "-"
+}
+// mod "Cost" is a percentage surcharge ("50%"), not an absolute price
+function modCost(s) {
+  s = T(s)
+  return (s === '' || s === '-' || s === '–' || s === '—') ? '' : s
+}
+function buildArmor() {
+  const out = []
+  // items: Name(0), Rating(1), Features(2), Extra Features(3), Weight(4), Tech(5), Cost(6)
+  for (const r of dataRows(ARMOR)) {
+    const name = fix(T(r[0]))
+    if (!name) continue                                  // blank separator rows
+    const slotsRaw = T(r[3])
+    const slots = (slotsRaw === '0' || slotsRaw === '-' || slotsRaw === '–' || slotsRaw === '') ? '' : slotsRaw
+    out.push({
+      category: armorCat(name), name,
+      rating: normRating(r[1]), slots,
+      weight: normWeight(r[4]), tech: techLabel(r[5]),
+      cost: normPrice(r[6]), features: fix(T(r[2])),
+    })
+  }
+  // modifications: Feature(0), Effect(1), Added Weight(2), Cost(3)
+  for (const r of dataRows(ARMOR_FEATURES)) {
+    const name = fix(T(r[0]))
+    if (!name) continue
+    out.push({
+      category: 'mods', name, rating: '', slots: '',
+      weight: modWeight(r[2]), tech: '', cost: modCost(r[3]),
+      features: fix(T(r[1])),
+    })
+  }
+  return out
+}
+
+// ── TALENTS -> talents ────────────────────────────────────────────────────────
+// Section-header rows (e.g. "GENERAL") drive the category. The sheet's own
+// "Type" column is inconsistent (typos, blanks) so it's only kept as a sub-label.
+// returns a category id, '' for a recognized structural parent (no category of
+// its own), or null for an unknown/unexpected section
+function talentSection(label) {
+  const k = label.toUpperCase().replace(/\s+/g, ' ').trim()
+  const map = {
+    'GENERAL':             'general',
+    'GROUP TALENTS':       '',
+    'FREE TRADERS':        'free_traders',
+    'MERCENARIES':         'mercenaries',
+    'AGENTS':              'agents',
+    'EXPLORERS':           'explorers',
+    'PILGRIMS':            'pilgrims',
+    'ICON TALENTS':        'icon',
+    'CYBERWARE & BIOWARE': 'cyber_bio',
+    'MYSTIC POWERS':       'mystic',
+  }
+  return k in map ? map[k] : null     // '' = recognized structural parent; null = unknown
+}
+function buildTalents() {
+  const out = []
+  let cat = null
+  for (const r of dataRows(TALENTS)) {
+    if (isSection(r)) {
+      const id = talentSection(T(r[0]))
+      if (id === null) log(`! talents: unknown section "${T(r[0])}" — its rows were skipped`)
+      cat = id || null            // '' (structural parent) and null both mean "no active category"
+      continue
+    }
+    if (!cat) continue
+    const name = fix(T(r[0]))                             // Name(0), Features(1), Type(2), Source(3)
+    if (!name) continue
+    out.push({ category: cat, name, type: fix(T(r[2])), source: T(r[3]), effect: fix(T(r[1])) })
+  }
+  return out
+}
+
 // ── run ───────────────────────────────────────────────────────────────────────
 const weaponRows = [...buildMelee(), ...buildRanged()]   // melee first, then ranged
 // order weapon rows by the category order in CATS
@@ -285,15 +401,27 @@ const wOrder = CATS.filter(c => c[0] === 'weapons').map(c => c[1])
 weaponRows.sort((a, b) => wOrder.indexOf(a.category) - wOrder.indexOf(b.category))
 const gearRows = buildGear()
 
+const armorRows = buildArmor()
+// order armor rows by the category order in CATS (mods last)
+const aOrder = CATS.filter(c => c[0] === 'armor').map(c => c[1])
+armorRows.sort((a, b) => aOrder.indexOf(a.category) - aOrder.indexOf(b.category))
+const talentRows = buildTalents()        // already in section order from the sheet
+
 writeFileSync(join(CSV_DIR, 'categories.csv'),
   toCsv(['dataset', 'id', 'label'], CATS.map(([dataset, id, label]) => ({ dataset, id, label }))))
 writeFileSync(join(CSV_DIR, 'weapons.csv'),
   toCsv(['category', 'name', 'type', 'ammo', 'rel', 'rof', 'damage', 'crit', 'blast', 'range', 'mag', 'armor', 'weight', 'price', 'slots', 'notes'], weaponRows))
 writeFileSync(join(CSV_DIR, 'gear.csv'),
   toCsv(['category', 'name', 'sub', 'weight', 'price', 'rel', 'range', 'effect', 'notes'], gearRows))
+writeFileSync(join(CSV_DIR, 'armor.csv'),
+  toCsv(['category', 'name', 'rating', 'slots', 'weight', 'tech', 'cost', 'features'], armorRows))
+writeFileSync(join(CSV_DIR, 'talents.csv'),
+  toCsv(['category', 'name', 'type', 'source', 'effect'], talentRows))
 
 console.log(`\ncategories.csv  ${CATS.length} categories`)
 console.log(`weapons.csv     ${weaponRows.length} weapons`)
 console.log(`gear.csv        ${gearRows.length} gear items`)
+console.log(`armor.csv       ${armorRows.length} armor items`)
+console.log(`talents.csv     ${talentRows.length} talents`)
 if (report.length) { console.log('\nnotes:'); report.forEach(m => console.log('  ' + m)) }
 console.log()

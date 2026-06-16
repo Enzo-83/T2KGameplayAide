@@ -96,16 +96,16 @@ export const RULESETS = {
 
 // ── Build the pickable library from the existing reference data ───────────────
 const GEAR_CAT = {
-  weapons_gear: 'tools', comms: 'comms', observation: 'optics',
-  protective: 'protective', medical: 'medical', tools: 'tools',
-  fuel: 'tools', electricity: 'tools', explosives: 'explosive',
-  food: 'food', field: 'field',
+  common: 'tools', combat_gear: 'optics', medical: 'medical', tools: 'tools',
+  survival: 'field', exos_vehicles: 'tools', recon: 'optics',
 }
 
 function weaponCat(type) {
   const t = (type || '').toLowerCase()
   if (t.includes('melee')) return 'melee'
-  if (t.includes('grenade') || t === 'gl' || t === 'agl' || t.includes('atrl') || t.includes('atgm')) return 'explosive'
+  if (t.includes('grenade') || t === 'gl' || t === 'agl' || t.includes('atrl') || t.includes('atgm') ||
+      t.includes('explosive') || t.includes('mine') || t.includes('charge') ||
+      t.includes('missile') || t.includes('rocket') || t.includes('system')) return 'explosive'
   return 'firearm'
 }
 function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') }

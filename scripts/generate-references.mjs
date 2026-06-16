@@ -90,6 +90,7 @@ function weaponItem(r) {
     ['armor',  r.armor],
     ['weight', r.weight],
     ['price',  numOrStr(r.price)],
+    ...(r.slots !== undefined && r.slots !== '' ? [['slots', numOrStr(r.slots)]] : []),
     ...(r.notes !== '' ? [['notes', r.notes]] : []),
   ]
 }

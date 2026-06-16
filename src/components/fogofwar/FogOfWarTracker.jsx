@@ -18,14 +18,12 @@ function uid() {
 function CufRollTool() {
   const [numDice, setNumDice] = useState(3)
   const [result, setResult]   = useState(null)
-  const [isFake, setIsFake]   = useState(false)
 
   function roll(fake = false) {
     // Ammo dice: each die rolls 1–6. A hit (✓) is a 6.
     const rolls = Array.from({ length: numDice }, () => Math.ceil(Math.random() * 6))
     const hits  = rolls.filter(r => r === 6).length
     setResult({ rolls, hits, fake })
-    setIsFake(fake)
   }
 
   return (

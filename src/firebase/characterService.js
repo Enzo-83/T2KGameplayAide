@@ -72,7 +72,15 @@ export const EMPTY_CHARACTER = {
     hypothermic:   false,
   },
 
-  // Gear slots
+  // ── Inventory & encumbrance (drives the InventoryGrid component) ──
+  //   ruleset:      't2k' (STR die → units, quarter granularity) | 'coriolis' (STR ×2 slots)
+  //   backpackWorn: doubles capacity for −2 Mobility (T2K)
+  //   items:        [{ uid, libId, name, cat, w, q, kind, sub, container, col }]
+  //                 container ∈ 'combat' | 'backpack' | 'tiny' | 'cabin'
+  inventory: { ruleset: 't2k', backpackWorn: true, items: [] },
+
+  // Legacy free-text gear slots — kept for backward compatibility with older
+  // saved characters. No longer rendered; the InventoryGrid above supersedes them.
   combatGear:   Array(12).fill(''),
   backpack:     Array(12).fill(''),
   tinyItems:    '',
@@ -113,6 +121,11 @@ function mergeWithEmpty(data) {
     skills:     { ...EMPTY_CHARACTER.skills,     ...(data.skills ?? {}) },
     armor:      { ...EMPTY_CHARACTER.armor,      ...(data.armor ?? {}) },
     conditions: { ...EMPTY_CHARACTER.conditions, ...(data.conditions ?? {}) },
+    inventory: {
+      ...EMPTY_CHARACTER.inventory,
+      ...(data.inventory ?? {}),
+      items: Array.isArray(data.inventory?.items) ? data.inventory.items : EMPTY_CHARACTER.inventory.items,
+    },
     combatGear: data.combatGear ?? EMPTY_CHARACTER.combatGear,
     backpack:   data.backpack   ?? EMPTY_CHARACTER.backpack,
     weapons:    data.weapons    ?? EMPTY_CHARACTER.weapons,

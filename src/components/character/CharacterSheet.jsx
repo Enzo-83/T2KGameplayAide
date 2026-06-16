@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import InventoryGrid from './InventoryGrid'
 
 // ── Skill definitions matching Version 2 of the Coriolis/T2K sheet ──────────
 // Three columns of six, left-to-right as on the paper sheet
@@ -103,13 +103,6 @@ export default function CharacterSheet({ character, editable = false, onChange }
     }
   }
 
-  function setGear(listKey, index, value) {
-    if (!onChange) return
-    const arr = [...(character[listKey] ?? [])]
-    arr[index] = value
-    onChange({ ...character, [listKey]: arr })
-  }
-
   function setWeapon(index, field, value) {
     if (!onChange) return
     const arr = character.weapons.map((w, i) => i === index ? { ...w, [field]: value } : w)
@@ -127,16 +120,6 @@ export default function CharacterSheet({ character, editable = false, onChange }
   function removeWeaponRow(index) {
     if (!onChange) return
     onChange({ ...character, weapons: character.weapons.filter((_, i) => i !== index) })
-  }
-
-  function addGearSlot(listKey) {
-    if (!onChange) return
-    onChange({ ...character, [listKey]: [...(character[listKey] ?? []), ''] })
-  }
-
-  function removeGearSlot(listKey, index) {
-    if (!onChange) return
-    onChange({ ...character, [listKey]: (character[listKey] ?? []).filter((_, i) => i !== index) })
   }
 
   function toggleCondition(key) {
@@ -266,56 +249,14 @@ export default function CharacterSheet({ character, editable = false, onChange }
         </div>
       </div>
 
-      {/* ── Gear ── */}
-      <SectionHeader title="Gear" />
-      <div className="cs-gear">
-        <div className="cs-gear-list">
-          <span className="cs-field-label">Combat Gear</span>
-          <div className="cs-gear-slots">
-            {c.combatGear.map((item, i) => (
-              <div key={i} className="cs-gear-slot">
-                <span className="cs-slot-num">{i + 1}</span>
-                {editable
-                  ? <input className="cs-input cs-input--gear" value={item} onChange={e => setGear('combatGear', i, e.target.value)} />
-                  : <span className="cs-val">{item || <span className="cs-empty">—</span>}</span>
-                }
-                {editable && (
-                  <button className="cs-remove-btn" onClick={() => removeGearSlot('combatGear', i)} title="Remove slot">×</button>
-                )}
-              </div>
-            ))}
-          </div>
-          {editable && (
-            <button className="cs-add-row-btn" onClick={() => addGearSlot('combatGear')}>+ Add Slot</button>
-          )}
-        </div>
-
-        <div className="cs-gear-list">
-          <span className="cs-field-label">Backpack</span>
-          <div className="cs-gear-slots">
-            {c.backpack.map((item, i) => (
-              <div key={i} className="cs-gear-slot">
-                <span className="cs-slot-num">{i + 1}</span>
-                {editable
-                  ? <input className="cs-input cs-input--gear" value={item} onChange={e => setGear('backpack', i, e.target.value)} />
-                  : <span className="cs-val">{item || <span className="cs-empty">—</span>}</span>
-                }
-                {editable && (
-                  <button className="cs-remove-btn" onClick={() => removeGearSlot('backpack', i)} title="Remove slot">×</button>
-                )}
-              </div>
-            ))}
-          </div>
-          {editable && (
-            <button className="cs-add-row-btn" onClick={() => addGearSlot('backpack')}>+ Add Slot</button>
-          )}
-        </div>
-      </div>
-
-      <div className="cs-gear-extras">
-        <Field label="Tiny Items"    value={c.tinyItems}    editable={editable} onChange={v => set('tinyItems', v)} />
-        <Field label="Cabin Storage" value={c.cabinStorage} editable={editable} onChange={v => set('cabinStorage', v)} />
-      </div>
+      {/* ── Inventory & Encumbrance (replaces the old gear-slot lists) ── */}
+      <SectionHeader title="Inventory & Encumbrance" />
+      <InventoryGrid
+        character={c}
+        value={c.inventory}
+        editable={editable}
+        onChange={v => set('inventory', v)}
+      />
 
       {/* ── Weapons ── */}
       <SectionHeader title="Weapons" />

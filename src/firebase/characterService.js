@@ -49,7 +49,10 @@ export const EMPTY_CHARACTER = {
     persuasion:   { rating: '', die: '' },
   },
 
-  // Talents (free text)
+  // Talents — structured list of {name, effect, source, type}, shown as
+  // collapsible pills on the sheet. `talents` (below) is kept as a free-text
+  // notes field for anything not in the compendium / legacy characters.
+  talentList: [],
   talents: '',
 
   // Combat stats
@@ -112,8 +115,10 @@ export function subscribeToCharacter(playerId, callback) {
   })
 }
 
-// Deep-merge Firestore data with EMPTY_CHARACTER so all keys always exist
-function mergeWithEmpty(data) {
+// Deep-merge data (from Firestore or an imported JSON file) with EMPTY_CHARACTER
+// so all keys always exist. Exported so the import flow can normalise files too.
+export function mergeWithEmpty(data) {
+  data = data ?? {}
   return {
     ...EMPTY_CHARACTER,
     ...data,
@@ -121,6 +126,7 @@ function mergeWithEmpty(data) {
     skills:     { ...EMPTY_CHARACTER.skills,     ...(data.skills ?? {}) },
     armor:      { ...EMPTY_CHARACTER.armor,      ...(data.armor ?? {}) },
     conditions: { ...EMPTY_CHARACTER.conditions, ...(data.conditions ?? {}) },
+    talentList: Array.isArray(data.talentList) ? data.talentList : EMPTY_CHARACTER.talentList,
     inventory: {
       ...EMPTY_CHARACTER.inventory,
       ...(data.inventory ?? {}),

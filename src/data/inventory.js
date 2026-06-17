@@ -5,6 +5,7 @@
 
 import { GEAR }    from './gear'
 import { WEAPONS } from './weapons'
+import { ARMOR }   from './armor'
 
 // ── Category palette (muted, matches the app's worn-military tokens) ──────────
 export const CATS = {
@@ -130,6 +131,14 @@ export function buildLibrary() {
     for (const g of GEAR[catId]) {
       if (/^—/.test(g.name)) continue
       lib.push({ id: 'g-' + slug(g.name) + '-' + slug(catId), name: g.name, cat: GEAR_CAT[catId] || 'tools', w: g.weight, kind: 'gear', sub: clip(g.effect) })
+    }
+  }
+  // Armor (worn protective items only — the `mods` category is modifications, not carried items)
+  for (const catId of Object.keys(ARMOR)) {
+    if (catId === 'mods') continue
+    for (const a of ARMOR[catId]) {
+      const sub = [a.rating !== '–' && a.rating !== '' ? 'AR ' + a.rating : null, a.tech].filter(Boolean).join(' · ')
+      lib.push({ id: 'a-' + slug(a.name) + '-' + slug(catId), name: a.name, cat: 'protective', w: a.weight, kind: 'armor', sub })
     }
   }
   return lib

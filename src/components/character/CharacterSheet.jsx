@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import InventoryGrid from './InventoryGrid'
 
 // ── Skill definitions matching Version 2 of the Coriolis/T2K sheet ──────────
@@ -82,6 +83,30 @@ function RatingDie({ label, attr, data, editable, onChange }) {
   )
 }
 
+// Collapsible talent pill: shows the name; click to expand the full
+// description/mechanics. In edit mode an × removes it.
+function TalentPill({ talent, editable, onRemove }) {
+  const [open, setOpen] = useState(false)
+  const meta = [talent.type, talent.source].filter(Boolean).join(' · ')
+  return (
+    <div className={`cs-talent-pill ${open ? 'cs-talent-pill--open' : ''}`}>
+      <div className="cs-talent-pill-head">
+        <button type="button" className="cs-talent-pill-name" onClick={() => setOpen(o => !o)} title="Show details">
+          <span className="cs-talent-pill-caret">{open ? '▾' : '▸'}</span>
+          {talent.name}
+        </button>
+        {editable && <button type="button" className="cs-remove-btn" onClick={onRemove} title="Remove talent">×</button>}
+      </div>
+      {open && (
+        <div className="cs-talent-pill-body">
+          {meta && <p className="cs-talent-pill-meta">{meta}</p>}
+          {talent.effect && <p className="cs-talent-pill-effect">{talent.effect}</p>}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function CharacterSheet({ character, editable = false, onChange }) {
@@ -120,6 +145,11 @@ export default function CharacterSheet({ character, editable = false, onChange }
   function removeWeaponRow(index) {
     if (!onChange) return
     onChange({ ...character, weapons: character.weapons.filter((_, i) => i !== index) })
+  }
+
+  function removeTalent(index) {
+    if (!onChange) return
+    onChange({ ...character, talentList: (character.talentList ?? []).filter((_, i) => i !== index) })
   }
 
   function toggleCondition(key) {
@@ -185,9 +215,17 @@ export default function CharacterSheet({ character, editable = false, onChange }
       {/* ── Talents ── */}
       <SectionHeader title="Talents" />
       <div className="cs-talents">
+        {(c.talentList ?? []).length > 0 && (
+          <div className="cs-talent-pills">
+            {c.talentList.map((t, i) => (
+              <TalentPill key={`${t.name}-${i}`} talent={t} editable={editable} onRemove={() => removeTalent(i)} />
+            ))}
+          </div>
+        )}
+        <span className="cs-field-label cs-talents-notes-label">Other talents / notes</span>
         {editable
-          ? <textarea className="cs-textarea" rows={3} value={c.talents} onChange={e => set('talents', e.target.value)} placeholder="List talents here…" />
-          : <p className="cs-text-block">{c.talents || <span className="cs-empty">—</span>}</p>
+          ? <textarea className="cs-textarea" rows={3} value={c.talents} onChange={e => set('talents', e.target.value)} placeholder="Add talents from the Talents tab, or jot notes here…" />
+          : <p className="cs-text-block">{c.talents || <span className="cs-empty">{(c.talentList ?? []).length > 0 ? '' : '—'}</span>}</p>
         }
       </div>
 

@@ -220,7 +220,7 @@ export default function InventoryGrid({ character, value, onChange, editable = t
   }
 
   // ── library list ────────────────────────────────────────────────────────────
-  const tabKind = libTab === 'weapons' ? 'weapon' : 'gear'
+  const tabKind = ({ weapons: 'weapon', gear: 'gear', armor: 'armor' })[libTab] || 'gear'
   const catsInTab = [...new Set(LIBRARY.filter(x => x.kind === tabKind).map(x => x.cat))]
   const term = search.trim().toLowerCase()
   const combatFree = baseCap - combat.used
@@ -300,7 +300,7 @@ export default function InventoryGrid({ character, value, onChange, editable = t
           <div style={{ width: 300, flexShrink: 0, background: T.surface, border: `1px solid ${T.border}`, borderRadius: 7, padding: 12, display: 'flex', flexDirection: 'column', gap: 10, alignSelf: 'stretch' }}>
             <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: T.accent }}>Add Gear</div>
             <div style={{ display: 'flex', gap: 3 }}>
-              {[['gear', 'Gear'], ['weapons', 'Weapons']].map(([k, l]) => (
+              {[['gear', 'Gear'], ['weapons', 'Weapons'], ['armor', 'Armor']].map(([k, l]) => (
                 <button key={k} onClick={() => { setLibTab(k); setCat('all') }} style={{ flex: 1, background: libTab === k ? T.surface2 : 'transparent', color: libTab === k ? T.accent : T.muted, border: `1px solid ${libTab === k ? T.accent : T.border}`, borderRadius: 5, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '6px 0', cursor: 'pointer' }}>{l}</button>
               ))}
             </div>

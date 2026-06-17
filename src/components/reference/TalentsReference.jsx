@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TALENT_CATEGORIES, TALENTS } from '../../data/talents'
 
-function TalentCard({ talent, showType }) {
+function TalentCard({ talent, showType, onAddToSheet }) {
   return (
     <div className="wref-card">
       <div className="wref-card-top">
@@ -12,13 +12,18 @@ function TalentCard({ talent, showType }) {
           {showType && talent.type && <span className="wref-card-type">{talent.type}</span>}
           {talent.source && <span className="wref-card-ammo">{talent.source}</span>}
         </div>
+        {onAddToSheet && (
+          <button className="wref-add-btn" onClick={() => onAddToSheet(talent)} title="Add to my sheet">
+            + Sheet
+          </button>
+        )}
       </div>
       <p className="talent-effect">{talent.effect}</p>
     </div>
   )
 }
 
-export default function TalentsReference() {
+export default function TalentsReference({ onAddToSheet }) {
   const [activeCat, setActiveCat] = useState('general')
   const [search,    setSearch]    = useState('')
 
@@ -69,7 +74,7 @@ export default function TalentsReference() {
       ) : (
         <div className="wref-list">
           {filtered.map((t, i) => (
-            <TalentCard key={i} talent={t} showType={showType} />
+            <TalentCard key={i} talent={t} showType={showType} onAddToSheet={onAddToSheet} />
           ))}
         </div>
       )}

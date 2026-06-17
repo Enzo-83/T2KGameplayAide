@@ -8,6 +8,7 @@ import {
 } from '../firebase/sessionService'
 import { getPlayerId, getPlayerName } from '../hooks/usePlayerIdentity'
 import { loadCharacter, saveCharacter, EMPTY_CHARACTER } from '../firebase/characterService'
+import { LIBRARY, toQuarters } from '../data/inventory'
 import TurnTracker from '../components/initiative/TurnTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
@@ -41,9 +42,9 @@ export default function PlayerScreen() {
     return unsub
   }, [sessionId])
 
-  // Load character sheet when switching to sheet, weapons, or gear tab
+  // Load character sheet when switching to any tab that reads or writes it
   useEffect(() => {
-    if ((activeTab === 'sheet' || activeTab === 'weapons' || activeTab === 'gear') && !character) {
+    if (['sheet', 'weapons', 'gear', 'armor', 'talents'].includes(activeTab) && !character) {
       loadCharacter(playerId)
         .then(setCharacter)
         .catch(() => setCharacter({ ...EMPTY_CHARACTER }))
@@ -111,6 +112,78 @@ export default function PlayerScreen() {
     try {
       await saveCharacter(playerId, newChar)
       setWeaponAdded(`${weapon.name} added to sheet.`)
+    } catch {
+      setWeaponAdded('Added locally — save failed, check connection.')
+    }
+    setTimeout(() => setWeaponAdded(''), 3000)
+  }
+
+  // Best-guess hit-location coverage for an armor item, from its name/features.
+  // Coriolis coverage is free text, so this is a starting point the player can edit.
+  function armorCoverage(item) {
+    if (/helmet/i.test(item.name)) return ['head']
+    const f = (item.features || '').toLowerCase()
+    if (f.includes('full body') || f.includes('all hit locations')) return ['head', 'arms', 'torso', 'legs']
+    const locs = []
+    if (f.includes('head'))  locs.push('head')
+    if (/\barm/.test(f))     locs.push('arms')
+    if (f.includes('torso')) locs.push('torso')
+    if (/\bleg/.test(f))     locs.push('legs')
+    return locs.length ? locs : ['torso']
+  }
+
+  async function handleAddArmorToSheet(item) {
+    const char = character ?? { ...EMPTY_CHARACTER }
+
+    // 1) add it to the inventory grid as a Protective item (counts toward encumbrance)
+    const lib = LIBRARY.find(x => x.kind === 'armor' && x.name === item.name)
+    let items = char.inventory?.items ?? []
+    if (lib) {
+      const q = toQuarters(lib.w)
+      const container = q === 0 ? 'tiny' : q > 16 ? 'cabin' : 'combat'
+      const uid = 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
+      items = [...items, { uid, libId: lib.id, name: lib.name, cat: 'protective', w: lib.w, q, kind: 'armor', sub: lib.sub, container, col: null }]
+    }
+
+    // 2) set the Armor Rating block for the covered locations (shields are situational → skip)
+    let armor = char.armor
+    let ratingSet = false
+    const ratingNum = parseInt(item.rating, 10)
+    if (!Number.isNaN(ratingNum) && !/shield/i.test(item.name)) {
+      armor = { ...char.armor }
+      for (const loc of armorCoverage(item)) armor[loc] = String(ratingNum)
+      ratingSet = true
+    }
+
+    const newChar = {
+      ...char,
+      inventory: { ...(char.inventory ?? EMPTY_CHARACTER.inventory), items },
+      armor,
+    }
+    setCharacter(newChar)
+    try {
+      await saveCharacter(playerId, newChar)
+      setWeaponAdded(`${item.name} added to inventory${ratingSet ? ' + armor rating' : ''}.`)
+    } catch {
+      setWeaponAdded('Added locally — save failed, check connection.')
+    }
+    setTimeout(() => setWeaponAdded(''), 3000)
+  }
+
+  async function handleAddTalentToSheet(talent) {
+    const char = character ?? { ...EMPTY_CHARACTER }
+    const list = char.talentList ?? []
+    if (list.some(t => t.name === talent.name)) {
+      setWeaponAdded(`${talent.name} is already on your sheet.`)
+      setTimeout(() => setWeaponAdded(''), 3000)
+      return
+    }
+    const entry = { name: talent.name, effect: talent.effect ?? '', source: talent.source ?? '', type: talent.type ?? '' }
+    const newChar = { ...char, talentList: [...list, entry] }
+    setCharacter(newChar)
+    try {
+      await saveCharacter(playerId, newChar)
+      setWeaponAdded(`${talent.name} added to Talents.`)
     } catch {
       setWeaponAdded('Added locally — save failed, check connection.')
     }
@@ -365,14 +438,16 @@ export default function PlayerScreen() {
       {/* ── ARMOR TAB ── */}
       {activeTab === 'armor' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <ArmorReference />
+          {weaponAdded && <div className="wref-toast">{weaponAdded}</div>}
+          <ArmorReference onAddToSheet={handleAddArmorToSheet} />
         </div>
       )}
 
       {/* ── TALENTS TAB ── */}
       {activeTab === 'talents' && (
         <div className="gm-fullwidth" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <TalentsReference />
+          {weaponAdded && <div className="wref-toast">{weaponAdded}</div>}
+          <TalentsReference onAddToSheet={handleAddTalentToSheet} />
         </div>
       )}
 

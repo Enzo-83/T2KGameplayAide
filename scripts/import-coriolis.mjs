@@ -352,6 +352,14 @@ function buildArmor() {
       features: fix(T(r[1])),
     })
   }
+  // Supplemental "Armor" feature — Flightsuit / Protective Clothing / Light Armor read
+  // rating "–" and say "if adding armor as a feature", but the Referee's Armor Features
+  // sheet has no such mod, so those garments could never gain a rating. Worded so the
+  // app's flat-bonus detector applies it (+1 Armor Rating to the covered locations).
+  out.push({
+    category: 'mods', name: 'Armor', rating: '', slots: '', weight: '', tech: '', cost: '',
+    features: 'Gives a +1 to Armor Rating to the locations this garment can cover (Protective Clothing: torso, arms and legs; Flightsuit: torso). On Light Armor, instead improves torso and arms armor by 1, or extends armor to the legs and upgrades the helmet to ballistic.',
+  })
   return out
 }
 

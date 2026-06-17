@@ -53,6 +53,13 @@ export default function InventoryGrid({ character, value, onChange, editable = t
     else if (q > 16) { cont = 'cabin'; c = null }
     else if (c !== 0 && c !== 1) c = null
     commit([...inv.items, { uid: newUid(), libId, name: l.name, cat: l.cat, w: l.w, q, kind: l.kind, sub: l.sub, slots: l.slots || 0, container: cont, col: c }])
+    // A worn armor's flat Armor Rating contributes to its covered hit locations
+    // (e.g. a Ballistic Helmet → +1 Head). Reverted in removeItem. Shields are
+    // situational and rating "–" items add nothing.
+    if (l.kind === 'armor' && onArmorBonus) {
+      const base = parseInt(l.rating, 10)
+      if (!Number.isNaN(base) && base !== 0 && !/shield/i.test(l.name) && l.coverage) onArmorBonus(l.coverage, base)
+    }
   }
 
   // Custom free-text item (no library entry) — used by the Tiny / Cabin add fields.
@@ -88,7 +95,19 @@ export default function InventoryGrid({ character, value, onChange, editable = t
   function moveItem(uid, container, col) {
     commit(inv.items.map(it => it.uid === uid ? { ...it, container, col: (col === 0 || col === 1) ? col : null } : it))
   }
-  function removeItem(uid) { commit(inv.items.filter(it => it.uid !== uid)) }
+  function removeItem(uid) {
+    const it = inv.items.find(x => x.uid === uid)
+    // revert an armor item's contribution: its base rating + any installed flat-armor mods
+    if (it && it.kind === 'armor' && onArmorBonus) {
+      const det = it.libId ? ITEM_DETAILS[it.libId] : null
+      const base = parseInt(det?.rating, 10)
+      const baseVal = (!Number.isNaN(base) && !/shield/i.test(it.name)) ? base : 0
+      const modSum = (it.mods || []).reduce((s, m) => s + (m.flatArmor || 0), 0)
+      const total = baseVal + modSum
+      if (total !== 0 && det?.coverage) onArmorBonus(det.coverage, -total)
+    }
+    commit(inv.items.filter(x => x.uid !== uid))
+  }
   function autoArrange()   { commit(inv.items.map(it => (it.container === 'combat' || it.container === 'backpack') ? { ...it, col: null } : it)) }
   const setRuleset    = r => onChange && onChange({ ...inv, ruleset: r })
   const toggleBackpack = () => onChange && onChange({ ...inv, backpackWorn: !inv.backpackWorn })

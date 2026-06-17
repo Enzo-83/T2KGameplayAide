@@ -162,7 +162,7 @@ export function buildLibrary() {
     if (catId === 'mods') continue
     for (const a of ARMOR[catId]) {
       const sub = [a.rating !== '–' && a.rating !== '' ? 'AR ' + a.rating : null, a.tech].filter(Boolean).join(' · ')
-      lib.push({ id: 'a-' + slug(a.name) + '-' + slug(catId), name: a.name, cat: 'protective', w: a.weight, kind: 'armor', sub, effect: a.features || '', slots: Number(a.slots) || 0, coverage: armorCoverage({ name: a.name, features: a.features }) })
+      lib.push({ id: 'a-' + slug(a.name) + '-' + slug(catId), name: a.name, cat: 'protective', w: a.weight, kind: 'armor', sub, effect: a.features || '', rating: a.rating, slots: Number(a.slots) || 0, coverage: armorCoverage({ name: a.name, features: a.features }) })
     }
   }
   return lib

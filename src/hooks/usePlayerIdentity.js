@@ -1,17 +1,12 @@
-const ID_KEY   = 't2k_player_id'
+import { getActiveId } from './characterLibrary'
+
 const NAME_KEY = 't2k_player_name'
 
-function getOrCreateId() {
-  let id = localStorage.getItem(ID_KEY)
-  if (!id) {
-    id = 'char_' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10)
-    localStorage.setItem(ID_KEY, id)
-  }
-  return id
-}
-
+// The player's identity is the active character in their library. getActiveId()
+// always returns an id (migrating a pre-library character or creating a slot),
+// so sessions and character docs key off whichever character is selected.
 export function getPlayerId() {
-  return getOrCreateId()
+  return getActiveId()
 }
 
 export function getPlayerName() {

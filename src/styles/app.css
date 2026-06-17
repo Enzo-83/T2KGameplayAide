@@ -1212,6 +1212,45 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
   white-space: pre-wrap;
 }
 
+/* ── Talents on the sheet (collapsible pills) ───────────────── */
+.cs-talent-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.6rem; }
+.cs-talent-pill {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 5px;
+  background: var(--surface2);
+  overflow: hidden;
+}
+.cs-talent-pill--open { flex-basis: 100%; }
+.cs-talent-pill-head { display: flex; align-items: center; gap: 2px; }
+.cs-talent-pill-name {
+  background: none; border: none; color: var(--text);
+  font-size: 0.8rem; font-weight: 600; cursor: pointer; text-align: left;
+  display: inline-flex; align-items: center; gap: 5px; padding: 4px 6px;
+}
+.cs-talent-pill-caret { color: var(--accent); font-size: 0.7rem; }
+.cs-talent-pill-body { padding: 4px 9px 8px; border-top: 1px solid var(--border); }
+.cs-talent-pill-meta {
+  font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-muted); margin-bottom: 3px;
+}
+.cs-talent-pill-effect { font-size: 0.76rem; color: var(--text); line-height: 1.45; white-space: pre-wrap; }
+.cs-talents-notes-label { display: block; margin-bottom: 0.25rem; }
+
+/* ── Character library toolbar (Character page) ─────────────── */
+.char-lib-toolbar {
+  display: flex; align-items: flex-end; gap: 1rem; flex-wrap: wrap;
+  padding: 0.6rem 1.25rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.char-lib-select { display: flex; flex-direction: column; gap: 4px; }
+.char-lib-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-muted); }
+.char-lib-select select { min-width: 180px; }
+.char-lib-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.char-lib-btns .btn { width: auto; padding: 0.4rem 0.9rem; font-size: 0.82rem; }
+
 /* ── Vehicle Reference ───────────────────────────────────── */
 .vcl-list {
   display: grid;

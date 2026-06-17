@@ -13,7 +13,7 @@ function Stat({ label, value }) {
   )
 }
 
-function ArmorCard({ item, isMod }) {
+function ArmorCard({ item, isMod, onAddToSheet }) {
   return (
     <div className="wref-card">
       <div className="wref-card-top">
@@ -23,6 +23,12 @@ function ArmorCard({ item, isMod }) {
             ? <span className="wref-card-type">Modification</span>
             : item.tech && <span className="wref-card-type">{item.tech}</span>}
         </div>
+        {/* modifications aren't standalone carried items, so no add button there */}
+        {onAddToSheet && !isMod && (
+          <button className="wref-add-btn" onClick={() => onAddToSheet(item)} title="Add to my sheet">
+            + Sheet
+          </button>
+        )}
       </div>
 
       <div className="wref-stats">
@@ -47,7 +53,7 @@ function ArmorCard({ item, isMod }) {
   )
 }
 
-export default function ArmorReference() {
+export default function ArmorReference({ onAddToSheet }) {
   const [activeCat, setActiveCat] = useState('body')
   const [search,    setSearch]    = useState('')
 
@@ -104,7 +110,7 @@ export default function ArmorReference() {
       ) : (
         <div className="wref-list">
           {filtered.map((a, i) => (
-            <ArmorCard key={i} item={a} isMod={isMod} />
+            <ArmorCard key={i} item={a} isMod={isMod} onAddToSheet={onAddToSheet} />
           ))}
         </div>
       )}

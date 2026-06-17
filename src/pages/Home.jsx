@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createSession, joinSession, getSession, reopenSession } from '../firebase/sessionService'
 import { getPlayerId, savePlayerName } from '../hooks/usePlayerIdentity'
+import { listCharacters, getActiveId, setActiveId } from '../hooks/characterLibrary'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -12,6 +13,10 @@ export default function Home() {
   const [showRejoin, setShowRejoin] = useState(false)
   const [error,      setError]      = useState('')
   const [loading,    setLoading]    = useState(false)
+
+  // The player's saved characters (if any) — pick which one to bring into the session
+  const characters = listCharacters()
+  const [charId, setCharId] = useState(() => (characters.length ? getActiveId() : ''))
 
   async function handleCreateSession() {
     if (!gmName.trim()) return setError('Enter your name to create a session.')
@@ -50,7 +55,8 @@ export default function Home() {
     setLoading(true)
     setError('')
     try {
-      const persistentId = getPlayerId()
+      const persistentId = charId || getPlayerId()
+      if (charId) setActiveId(charId)
       savePlayerName(playerName.trim())
       const { code, playerId } = await joinSession(joinCode.trim().toUpperCase(), playerName.trim(), persistentId)
       navigate(`/player/${code}`, { state: { name: playerName.trim(), playerId } })
@@ -149,13 +155,28 @@ export default function Home() {
               className="code-input"
             />
           </div>
+          {characters.length > 0 && (
+            <div className="form-group">
+              <label htmlFor="play-as">Play as</label>
+              <select
+                id="play-as"
+                value={charId}
+                onChange={e => setCharId(e.target.value)}
+              >
+                {characters.map(c => (
+                  <option key={c.id} value={c.id}>{c.name || 'Unnamed'}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <button className="btn btn-secondary" onClick={handleJoinSession} disabled={loading}>
             {loading ? 'Joining…' : 'Join Session'}
           </button>
 
           <div className="home-char-link">
             <button className="btn-text" onClick={() => navigate('/character')}>
-              Edit my character sheet →
+              {characters.length > 0 ? 'Manage my characters →' : 'Create my character sheet →'}
             </button>
           </div>
         </section>

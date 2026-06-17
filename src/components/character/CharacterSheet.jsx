@@ -9,7 +9,7 @@ const SKILL_COLUMNS = [
     { key: 'heavyWeapons', label: 'Heavy Weapons',  attr: 'STR' },
     { key: 'meleeCombat',  label: 'Melee Combat',   attr: 'STR' },
     { key: 'stamina',      label: 'Stamina',        attr: 'STR' },
-    { key: 'dexterity',    label: 'Dexterity',      attr: 'AGI' },
+    { key: 'dexterity',    label: 'Mobility',       attr: 'AGI' }, // displayed as "Mobility"; data key stays `dexterity` for back-compat
     { key: 'infiltration', label: 'Infiltration',   attr: 'AGI' },
   ],
   [

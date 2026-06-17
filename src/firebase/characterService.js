@@ -31,7 +31,7 @@ export const EMPTY_CHARACTER = {
     meleeCombat:  { rating: '', die: '' },
     stamina:      { rating: '', die: '' },
     // AGI
-    dexterity:    { rating: '', die: '' },
+    dexterity:    { rating: '', die: '' },   // displayed as "Mobility" on the sheet (key kept for back-compat)
     infiltration: { rating: '', die: '' },
     pilot:        { rating: '', die: '' },
     rangedCombat: { rating: '', die: '' },

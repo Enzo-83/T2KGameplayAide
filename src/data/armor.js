@@ -54,5 +54,6 @@ export const ARMOR = {
     { name: "Thermostatic suit", rating: "", slots: "", weight: "½", tech: "", cost: "50%", features: "A suit that monitors and chemically corrects the wearer’s body temperature. No extra energy source is necessary. Works between +70 degrees Celsius and -80 degrees Celsius. Collects the wearer’s sweat and urine, purifies it, and fills up an internal compartment with clean water. Gives a +1 to Survival rolls related to surviving in extreme conditions and supplies one ration of water per day to the wearer." },
     { name: "Vacuum suit", rating: "", slots: "", weight: "½", tech: "", cost: "25%", features: "Protects against vacuum as well as both weak and strong radiation in proximity. Gives a +2 to Stamina for resisting extreme radiation." },
     { name: "Zero-G jet", rating: "", slots: "", weight: "¼", tech: "", cost: "10%", features: "Tiny thrusters give increased maneuverability in zero-G (+1 to MOBILITY)." },
+    { name: "Armor", rating: "", slots: "", weight: "", tech: "", cost: "", features: "Gives a +1 to Armor Rating to the locations this garment can cover (Protective Clothing: torso, arms and legs; Flightsuit: torso). On Light Armor, instead improves torso and arms armor by 1, or extends armor to the legs and upgrades the helmet to ballistic." },
   ],
 }

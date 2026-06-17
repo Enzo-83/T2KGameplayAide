@@ -8,7 +8,7 @@ import {
 } from '../firebase/sessionService'
 import { getPlayerId, getPlayerName } from '../hooks/usePlayerIdentity'
 import { loadCharacter, saveCharacter, EMPTY_CHARACTER } from '../firebase/characterService'
-import { LIBRARY, toQuarters } from '../data/inventory'
+import { LIBRARY, toQuarters, armorCoverage } from '../data/inventory'
 import TurnTracker from '../components/initiative/TurnTracker'
 import CharacterSheet from '../components/character/CharacterSheet'
 import WeaponsReference from '../components/reference/WeaponsReference'
@@ -116,20 +116,6 @@ export default function PlayerScreen() {
       setWeaponAdded('Added locally — save failed, check connection.')
     }
     setTimeout(() => setWeaponAdded(''), 3000)
-  }
-
-  // Best-guess hit-location coverage for an armor item, from its name/features.
-  // Coriolis coverage is free text, so this is a starting point the player can edit.
-  function armorCoverage(item) {
-    if (/helmet/i.test(item.name)) return ['head']
-    const f = (item.features || '').toLowerCase()
-    if (f.includes('full body') || f.includes('all hit locations')) return ['head', 'arms', 'torso', 'legs']
-    const locs = []
-    if (f.includes('head'))  locs.push('head')
-    if (/\barm/.test(f))     locs.push('arms')
-    if (f.includes('torso')) locs.push('torso')
-    if (/\bleg/.test(f))     locs.push('legs')
-    return locs.length ? locs : ['torso']
   }
 
   async function handleAddArmorToSheet(item) {

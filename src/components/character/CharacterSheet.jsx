@@ -110,22 +110,17 @@ function TalentPill({ talent, editable, onRemove }) {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function CharacterSheet({ character, editable = false, onChange }) {
+  // Functional updates so multiple updates fired in one tick (e.g. an inventory
+  // change + an armor-rating bump from installing a mod) compose instead of
+  // clobbering each other through a stale `character` closure.
   function set(path, value) {
     if (!onChange) return
     const keys = path.split('.')
-    if (keys.length === 1) {
-      onChange({ ...character, [keys[0]]: value })
-    } else if (keys.length === 2) {
-      onChange({ ...character, [keys[0]]: { ...character[keys[0]], [keys[1]]: value } })
-    } else if (keys.length === 3) {
-      onChange({
-        ...character,
-        [keys[0]]: {
-          ...character[keys[0]],
-          [keys[1]]: { ...character[keys[0]][keys[1]], [keys[2]]: value },
-        },
-      })
-    }
+    onChange(prev => {
+      if (keys.length === 1) return { ...prev, [keys[0]]: value }
+      if (keys.length === 2) return { ...prev, [keys[0]]: { ...prev[keys[0]], [keys[1]]: value } }
+      return { ...prev, [keys[0]]: { ...prev[keys[0]], [keys[1]]: { ...prev[keys[0]][keys[1]], [keys[2]]: value } } }
+    })
   }
 
   function setWeapon(index, field, value) {
@@ -294,6 +289,17 @@ export default function CharacterSheet({ character, editable = false, onChange }
         value={c.inventory}
         editable={editable}
         onChange={v => set('inventory', v)}
+        onArmorBonus={(coverage, delta) => {
+          if (!onChange) return
+          onChange(prev => {
+            const next = { ...prev.armor }
+            for (const loc of coverage) {
+              const val = Math.max(0, (parseInt(next[loc], 10) || 0) + delta)
+              next[loc] = val === 0 ? '' : String(val)
+            }
+            return { ...prev, armor: next }
+          })
+        }}
       />
 
       {/* ── Weapons ── */}

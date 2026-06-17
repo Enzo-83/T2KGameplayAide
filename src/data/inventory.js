@@ -19,6 +19,7 @@ export const CATS = {
   field:      { label: 'Field',      color: '#7f955f' },
   protective: { label: 'Protective', color: '#5e93a8' },
   food:       { label: 'Food',       color: '#a87c52' },
+  custom:     { label: 'Custom',     color: '#8a8a8a' },
 }
 
 // ── Encumbrance is measured in QUARTER-units. 1 unit = 4 quarters. ────────────
@@ -112,6 +113,29 @@ function weaponCat(type) {
 function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') }
 function clip(s, n = 36) { if (!s) return ''; return s.length > n ? s.slice(0, n - 1) + '…' : s }
 
+// Best-guess hit-location coverage for an armor item, from its name/features text.
+// Coriolis coverage is free text, so this is a starting point the player can edit.
+// Shared by the inventory mod-bonus logic and PlayerScreen's add-to-sheet.
+export function armorCoverage(item) {
+  if (/helmet/i.test(item.name)) return ['head']
+  const f = (item.features || '').toLowerCase()
+  if (f.includes('full body') || f.includes('all hit locations')) return ['head', 'arms', 'torso', 'legs']
+  const locs = []
+  if (f.includes('head'))  locs.push('head')
+  if (/\barm/.test(f))     locs.push('arms')
+  if (f.includes('torso')) locs.push('torso')
+  if (/\bleg/.test(f))     locs.push('legs')
+  return locs.length ? locs : ['torso']
+}
+
+// A modification grants a flat +1 Armor Rating only when its effect plainly says so
+// (High-density armalite, the "Armor" feature). Conditional ones like Hydrostatic gel
+// ("+1 ... against explosions") are excluded.
+export function flatArmor(effect) {
+  const e = String(effect || '')
+  return /\+1 to armor rating/i.test(e) && !/against/i.test(e) ? 1 : 0
+}
+
 export function buildLibrary() {
   const lib = []
   // Weapons
@@ -123,14 +147,14 @@ export function buildLibrary() {
         (w.damage != null && w.damage !== '' && w.damage !== '–') ? 'Dmg ' + w.damage : null,
         (w.range != null && w.range !== '') ? 'Rng ' + w.range : null,
       ].filter(Boolean).join(' · ')
-      lib.push({ id: 'w-' + slug(w.name) + '-' + slug(catId), name: w.name, cat: weaponCat(w.type), w: w.weight, kind: 'weapon', sub })
+      lib.push({ id: 'w-' + slug(w.name) + '-' + slug(catId), name: w.name, cat: weaponCat(w.type), w: w.weight, kind: 'weapon', sub, effect: w.notes || '', slots: Number(w.slots) || 0 })
     }
   }
   // Gear
   for (const catId of Object.keys(GEAR)) {
     for (const g of GEAR[catId]) {
       if (/^—/.test(g.name)) continue
-      lib.push({ id: 'g-' + slug(g.name) + '-' + slug(catId), name: g.name, cat: GEAR_CAT[catId] || 'tools', w: g.weight, kind: 'gear', sub: clip(g.effect) })
+      lib.push({ id: 'g-' + slug(g.name) + '-' + slug(catId), name: g.name, cat: GEAR_CAT[catId] || 'tools', w: g.weight, kind: 'gear', sub: clip(g.effect), effect: g.effect || '' })
     }
   }
   // Armor (worn protective items only — the `mods` category is modifications, not carried items)
@@ -138,10 +162,24 @@ export function buildLibrary() {
     if (catId === 'mods') continue
     for (const a of ARMOR[catId]) {
       const sub = [a.rating !== '–' && a.rating !== '' ? 'AR ' + a.rating : null, a.tech].filter(Boolean).join(' · ')
-      lib.push({ id: 'a-' + slug(a.name) + '-' + slug(catId), name: a.name, cat: 'protective', w: a.weight, kind: 'armor', sub })
+      lib.push({ id: 'a-' + slug(a.name) + '-' + slug(catId), name: a.name, cat: 'protective', w: a.weight, kind: 'armor', sub, effect: a.features || '', slots: Number(a.slots) || 0, coverage: armorCoverage({ name: a.name, features: a.features }) })
     }
   }
   return lib
 }
 
 export const LIBRARY = buildLibrary()
+
+// Full item details for the inventory detail panel, keyed by libId (avoids bloating
+// saved character docs with description text).
+export const ITEM_DETAILS = Object.fromEntries(LIBRARY.map(x => [x.id, x]))
+
+// Modification pools. Weapon mods are the Combat Gear attachments (scopes, suppressors,
+// sights); armor mods are the Armor "Modifications" list (incl. the supplemental "Armor"
+// feature). Effects are shown to the player; only `flatArmor` ones auto-bump the rating.
+export const WEAPON_MODS = (GEAR.combat_gear || []).map(g => ({
+  id: 'wm-' + slug(g.name), name: g.name, effect: g.effect || '', weight: g.weight, flatArmor: 0,
+}))
+export const ARMOR_MODS = (ARMOR.mods || []).map(m => ({
+  id: 'am-' + slug(m.name), name: m.name, effect: m.features || '', weight: m.weight, flatArmor: flatArmor(m.features),
+}))

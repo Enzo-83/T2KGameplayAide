@@ -1681,3 +1681,25 @@ input[type="text"]:focus, select:focus { outline: 2px solid var(--accent); }
   font-size: 0.85rem;
 }
 .trav-scrap-search::placeholder { color: var(--text-muted); }
+
+/* ── v2 rules additions ───────────────────────────────────────────────── */
+.cs-rank-select { width: 52px; text-align: center; padding: 2px 4px; }
+.cs-adv-tag {
+  display: inline-block; margin-left: 4px; padding: 0 4px; border-radius: 3px;
+  font-size: 0.6rem; font-weight: 700; line-height: 1.4;
+  color: var(--accent); border: 1px solid var(--accent); vertical-align: middle;
+}
+.cs-rating-die--key .cs-skill-name { color: var(--accent); font-weight: 700; }
+.cs-auto-tag { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; margin-left: 4px; }
+.cs-arch-hint { margin: 6px 0 0; font-size: 0.78rem; color: var(--text-muted); }
+.cs-creation-check {
+  margin: 10px 0; padding: 8px 12px; border: 1px dashed var(--border, #555); border-radius: 6px;
+  font-size: 0.82rem;
+}
+.cs-creation-check summary { cursor: pointer; font-weight: 600; display: flex; gap: 8px; align-items: center; }
+.cs-creation-check ul { margin: 8px 0 0; padding-left: 18px; }
+.cs-creation-check li { margin: 3px 0; }
+.cs-cc-badge { font-size: 0.7rem; padding: 1px 6px; border-radius: 10px; background: #8a5a2a; color: #fff; }
+.cs-cc-badge--ok { background: #4f7a4f; }
+.cs-cc-ok::marker { color: #6fa07a; }
+.cs-cc-warn { color: #c79a4e; }

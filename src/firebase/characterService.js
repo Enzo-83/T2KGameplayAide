@@ -14,8 +14,10 @@ export const EMPTY_CHARACTER = {
   personalProblem: '',
   icon: '',
   groupConcept: '',
+  archetype: '',      // v2 archetype key (see src/data/rulesV2.js)
+  archetypeSub: '',   // sub-type within the archetype
 
-  // Attributes — each has a Rating (number) and Die (e.g. D8)
+  // Attributes — v2: Rating is a rank letter D–A, Die is the matching D6–D12
   attributes: {
     str: { rating: '', die: '' },
     agi: { rating: '', die: '' },

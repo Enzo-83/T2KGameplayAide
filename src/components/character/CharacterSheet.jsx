@@ -1,5 +1,9 @@
 import { useState } from 'react'
 import InventoryGrid from './InventoryGrid'
+import {
+  RANKS, RANK_DIE, rankOf, ADVANCED_SKILLS, capacity,
+  ARCHETYPES, ARCHETYPE_BY_KEY, attributeBudget, skillBudget, SKILL_XP, TALENT_XP,
+} from '../../data/rulesV2'
 
 // ── Skill definitions matching Version 2 of the Coriolis/T2K sheet ──────────
 // Three columns of six, left-to-right as on the paper sheet
@@ -16,7 +20,7 @@ const SKILL_COLUMNS = [
     { key: 'pilot',        label: 'Pilot',          attr: 'AGI' },
     { key: 'rangedCombat', label: 'Ranged Combat',  attr: 'AGI' },
     { key: 'dataDjinn',    label: 'Data Djinn',     attr: 'WITS' },
-    { key: 'medicalAid',   label: 'Medical Aid',    attr: 'WITS' },
+    { key: 'medicalAid',   label: 'Medicurgy',      attr: 'WITS' }, // v2 name; data key kept for back-compat
     { key: 'observation',  label: 'Observation',    attr: 'WITS' },
     { key: 'science',      label: 'Science',        attr: 'WITS' },
   ],
@@ -62,24 +66,66 @@ function Field({ label, value, editable, onChange, type = 'text', placeholder = 
   )
 }
 
-function RatingDie({ label, attr, data, editable, onChange }) {
+// Rank picker for v2: D–A ranks map to D6–D12. Skills can be left untrained.
+// Legacy values that don't map to a rank are shown as a hint so nothing is lost.
+function RatingDie({ label, attr, data, editable, onChange, advanced = false, untrainedLabel = '—', highlight = false }) {
+  const rank = rankOf(data)
+  const legacy = !rank && (data?.rating || data?.die) ? [data.rating, data.die].filter(Boolean).join(' / ') : ''
   return (
-    <div className="cs-rating-die">
-      <span className="cs-skill-name">{label}{attr && <span className="cs-attr-tag">({attr})</span>}</span>
+    <div className={`cs-rating-die ${highlight ? 'cs-rating-die--key' : ''}`} title={legacy ? `Old value: ${legacy}` : undefined}>
+      <span className="cs-skill-name">
+        {label}
+        {attr && <span className="cs-attr-tag">({attr})</span>}
+        {advanced && <span className="cs-adv-tag" title="Advanced skill: cannot be used or used to assist when untrained">A</span>}
+      </span>
       <div className="cs-rd-inputs">
         {editable ? (
-          <>
-            <input className="cs-input cs-input--sm" value={data.rating} placeholder="Rtg" onChange={e => onChange({ ...data, rating: e.target.value })} />
-            <input className="cs-input cs-input--sm" value={data.die}    placeholder="Die" onChange={e => onChange({ ...data, die: e.target.value })} />
-          </>
+          <select
+            className="cs-input cs-rank-select"
+            value={rank}
+            onChange={e => {
+              const r = e.target.value
+              onChange({ ...data, rating: r, die: RANK_DIE[r] || '' })
+            }}
+          >
+            <option value="">{legacy ? `(${legacy})` : untrainedLabel}</option>
+            {RANKS.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
         ) : (
-          <>
-            <span className="cs-val cs-val--sm">{data.rating || '—'}</span>
-            <span className="cs-val cs-val--sm cs-val--die">{data.die || '—'}</span>
-          </>
+          <span className="cs-val cs-val--sm">{rank || legacy || untrainedLabel}</span>
         )}
+        <span className="cs-val cs-val--sm cs-val--die">{rank ? RANK_DIE[rank] : ''}</span>
       </div>
     </div>
+  )
+}
+
+function DerivedStat({ label, value, formula, fallback, editable, onChange }) {
+  if (!value) return <Field label={label} value={fallback} editable={editable} onChange={onChange} />
+  return (
+    <div className="cs-field" title={formula}>
+      <span className="cs-field-label">{label} <span className="cs-auto-tag">auto</span></span>
+      <span className="cs-val">{value}</span>
+    </div>
+  )
+}
+
+function CreationCheck({ character }) {
+  const a = attributeBudget(character.attributes)
+  const s = skillBudget(character.skills)
+  return (
+    <details className="cs-creation-check">
+      <summary>
+        Character creation check
+        <span className={`cs-cc-badge ${a.ok && s.ok ? 'cs-cc-badge--ok' : ''}`}>{a.ok && s.ok ? 'Starting build OK' : 'Review'}</span>
+      </summary>
+      <ul>
+        <li className={a.ok ? 'cs-cc-ok' : 'cs-cc-warn'}>{a.msg} All start at C; three one-step increases; you may drop one attribute to D for a fourth.</li>
+        <li className={s.ok ? 'cs-cc-ok' : 'cs-cc-warn'}>{s.msg}</li>
+        <li>Starting talents: one Icon, one Group, and one of your choice.</li>
+        <li>After creation, attributes can’t be raised. Skill XP: D {SKILL_XP.D} · C {SKILL_XP.C} · B {SKILL_XP.B} · A {SKILL_XP.A}. A new talent costs {TALENT_XP} XP. You must succeed with a skill before you raise it.</li>
+      </ul>
+    </details>
   )
 }
 
@@ -156,6 +202,25 @@ export default function CharacterSheet({ character, editable = false, onChange }
   }
 
   const c = character
+  const arch = ARCHETYPE_BY_KEY[c.archetype]
+  const keySkills = new Set(arch ? [...arch.skills, ...(arch.subs[c.archetypeSub] || [])] : [])
+  const hitAuto    = capacity(c.attributes.str, c.attributes.agi)
+  const stressAuto = capacity(c.attributes.wit, c.attributes.emp)
+
+  function setArchetype(key) {
+    if (!onChange) return
+    const next = ARCHETYPE_BY_KEY[key]
+    onChange(prev => {
+      const prevDefault = ARCHETYPE_BY_KEY[prev.archetype]?.cuf
+      const keepCuf = prev.coolnessUnderFire && prev.coolnessUnderFire !== prevDefault
+      return {
+        ...prev,
+        archetype: key,
+        archetypeSub: '',
+        coolnessUnderFire: keepCuf ? prev.coolnessUnderFire : (next?.cuf ?? prev.coolnessUnderFire),
+      }
+    })
+  }
 
   return (
     <div className="cs-sheet">
@@ -167,7 +232,32 @@ export default function CharacterSheet({ character, editable = false, onChange }
         <Field label="Personal Problem"        value={c.personalProblem} editable={editable} onChange={v => set('personalProblem', v)} />
         <Field label="Icon"                   value={c.icon}           editable={editable} onChange={v => set('icon', v)} />
         <Field label="Group Concept & Talent" value={c.groupConcept}   editable={editable} onChange={v => set('groupConcept', v)} />
+        <div className="cs-field">
+          <span className="cs-field-label">Archetype</span>
+          {editable ? (
+            <select className="cs-input" value={c.archetype} onChange={e => setArchetype(e.target.value)}>
+              <option value="">—</option>
+              {ARCHETYPES.map(a => <option key={a.key} value={a.key}>{a.label}</option>)}
+            </select>
+          ) : <ViewVal value={arch?.label} />}
+        </div>
+        <div className="cs-field">
+          <span className="cs-field-label">Sub-type</span>
+          {editable ? (
+            <select className="cs-input" value={c.archetypeSub} onChange={e => set('archetypeSub', e.target.value)} disabled={!arch}>
+              <option value="">—</option>
+              {arch && Object.keys(arch.subs).map(k => <option key={k} value={k}>{k}</option>)}
+            </select>
+          ) : <ViewVal value={c.archetypeSub} />}
+        </div>
       </div>
+      {arch && (
+        <p className="cs-arch-hint">
+          Key attribute: <strong>{arch.attr}</strong> · Key skills: {arch.skills.join(', ')}
+          {c.archetypeSub && arch.subs[c.archetypeSub] ? ` · ${c.archetypeSub}: ${arch.subs[c.archetypeSub].join(', ')}` : ''}
+          {' '}· Coolness Under Fire {arch.cuf}
+        </p>
+      )}
 
       {/* ── Attributes ── */}
       <SectionHeader title="Attributes" />
@@ -200,12 +290,17 @@ export default function CharacterSheet({ character, editable = false, onChange }
                 attr={attr}
                 data={c.skills[key]}
                 editable={editable}
+                advanced={ADVANCED_SKILLS.has(key)}
+                untrainedLabel="F"
+                highlight={keySkills.has(label)}
                 onChange={v => set(`skills.${key}`, v)}
               />
             ))}
           </div>
         ))}
       </div>
+
+      {editable && <CreationCheck character={c} />}
 
       {/* ── Talents ── */}
       <SectionHeader title="Talents" />
@@ -228,9 +323,17 @@ export default function CharacterSheet({ character, editable = false, onChange }
       <SectionHeader title="Combat" />
       <div className="cs-combat">
         <div className="cs-combat-stats">
-          <Field label="Hit Capacity"       value={c.hitCapacity}       editable={editable} onChange={v => set('hitCapacity', v)} />
-          <Field label="Stress Capacity"    value={c.stressCapacity}    editable={editable} onChange={v => set('stressCapacity', v)} />
-          <Field label="Coolness Under Fire" value={c.coolnessUnderFire} editable={editable} onChange={v => set('coolnessUnderFire', v)} />
+          <DerivedStat label="Hit Capacity"    value={hitAuto}    formula="(STR die + AGI die) ÷ 4, round up" fallback={c.hitCapacity}    editable={editable} onChange={v => set('hitCapacity', v)} />
+          <DerivedStat label="Stress Capacity" value={stressAuto} formula="(WIT die + EMP die) ÷ 4, round up" fallback={c.stressCapacity} editable={editable} onChange={v => set('stressCapacity', v)} />
+          <div className="cs-field">
+            <span className="cs-field-label">Coolness Under Fire</span>
+            {editable ? (
+              <select className="cs-input" value={rankOf({ rating: c.coolnessUnderFire })} onChange={e => set('coolnessUnderFire', e.target.value)}>
+                <option value="">{c.coolnessUnderFire && !rankOf({ rating: c.coolnessUnderFire }) ? `(${c.coolnessUnderFire})` : '—'}</option>
+                {RANKS.map(r => <option key={r} value={r}>{r} ({RANK_DIE[r]})</option>)}
+              </select>
+            ) : <ViewVal value={c.coolnessUnderFire && rankOf({ rating: c.coolnessUnderFire }) ? `${rankOf({ rating: c.coolnessUnderFire })} (${RANK_DIE[rankOf({ rating: c.coolnessUnderFire })]})` : c.coolnessUnderFire} />}
+          </div>
           <Field label="Unit Morale"        value={c.unitMorale}        editable={editable} onChange={v => set('unitMorale', v)} />
         </div>
 
